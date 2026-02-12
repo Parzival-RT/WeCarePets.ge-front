@@ -20,7 +20,7 @@ const emit = defineEmits<{
           </p>
           <button
             @click="emit('openModal')"
-            class="mt-8 bg-primary hover:bg-primary-600 text-white font-sans font-normal font-case w-full md:w-auto py-8 px-7 md:px-14 rounded-full text-xl md:text-3xl transition-colors">
+            class="mt-8 bg-primary hover:bg-primary-600 text-white font-sans font-normal font-case w-full md:w-auto py-4 px-2 md:px-14 rounded-full text-xl md:text-2xl transition-colors">
             დაეხმარე ცხოველებს
           </button>
         </div>

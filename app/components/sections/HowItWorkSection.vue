@@ -44,7 +44,7 @@ const steps = [
             <div class="flex items-center gap-8">
               <!-- Step Number -->
               <div
-                class="text-3xl font-bold bg-primary/20 text-primary mb-4 p-5 rounded-full">
+                class="w-[70px] h-[70px] text-3xl font-bold bg-primary/20 text-primary mb-4 p-5 rounded-full shrink-0 flex items-center justify-center">
                 {{ step.number }}
               </div>
 

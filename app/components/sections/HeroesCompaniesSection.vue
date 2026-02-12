@@ -3,77 +3,29 @@ const props = defineProps<{
   pagination?: boolean;
 }>();
 
+const {
+  heroCompanies,
+  pagination: paginationData,
+  isLoading,
+  fetchHeroCompanies,
+} = useCompanies();
+
 // Pagination state
 const currentPage = ref(1);
-const totalPages = ref(100); // მოგვიანებით API-დან მოვა
 
-// Watch page changes - შეცვალე API call-ით
-watch(currentPage, (newPage) => {
-  console.log(`[Pagination] გვერდი შეიცვალა: ${newPage}`);
-  console.log(`[API] GET /api/stories?page=${newPage}`);
-  // TODO: აქ ჩაწერე API call
-  // const { data } = await useFetch(`/api/stories?page=${newPage}`);
-  // stories.value = data.value.data;
-  // totalPages.value = data.value.meta.last_page;
+// Fetch companies on mount
+onMounted(() => {
+  fetchHeroCompanies(currentPage.value);
 });
 
-// Mock data for hero companies (will come from API later)
-const companies = ref([
-  {
-    id: 1,
-    name: "BOG",
-    logo: "https://unglobalcompact.ge/app/uploads/2021/09/BOG-Logo-Single.png",
-  },
-  {
-    id: 2,
-    name: "TERA",
-    logo: "https://forbes.ge/wp-content/uploads/2020/11/8dc7c74f0e40cf07edbd7e93900a925d.jpg",
-  },
-  {
-    id: 3,
-    name: "TBC",
-    logo: "https://upload.wikimedia.org/wikipedia/ka/a/af/Tbc-logo-ka_GE.svg",
-  },
-  {
-    id: 1,
-    name: "EVOLINE",
-    logo: "https://unglobalcompact.ge/app/uploads/2021/09/BOG-Logo-Single.png",
-  },
-  {
-    id: 2,
-    name: "iSystems",
-    logo: "https://forbes.ge/wp-content/uploads/2020/11/8dc7c74f0e40cf07edbd7e93900a925d.jpg",
-  },
-  {
-    id: 3,
-    name: "E-MOTIONS",
-    logo: "https://upload.wikimedia.org/wikipedia/ka/a/af/Tbc-logo-ka_GE.svg",
-  },
-  {
-    id: 1,
-    name: "CASINO MIDAS",
-    logo: "https://unglobalcompact.ge/app/uploads/2021/09/BOG-Logo-Single.png",
-  },
-  {
-    id: 2,
-    name: "GIUANI",
-    logo: "https://forbes.ge/wp-content/uploads/2020/11/8dc7c74f0e40cf07edbd7e93900a925d.jpg",
-  },
-  {
-    id: 3,
-    name: "Sport Palace",
-    logo: "https://upload.wikimedia.org/wikipedia/ka/a/af/Tbc-logo-ka_GE.svg",
-  },
-  {
-    id: 1,
-    name: "ENVIROS",
-    logo: "https://unglobalcompact.ge/app/uploads/2021/09/BOG-Logo-Single.png",
-  },
-]);
+// Watch page changes
+watch(currentPage, (newPage) => {
+  fetchHeroCompanies(newPage);
+});
 </script>
 
 <template>
-  <section class="py-20 bg-white">
+  <section id="heroes-companies" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section Header -->
       <div class="text-center mb-12">
@@ -87,26 +39,48 @@ const companies = ref([
         </p>
       </div>
 
+      <!-- Loading State -->
+      <div v-if="isLoading" class="flex justify-center py-10">
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+
       <!-- Companies Grid -->
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div
+        v-else-if="heroCompanies.length > 0"
+        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <NuxtLink
-          v-for="company in companies"
+          v-for="company in heroCompanies"
           :key="company.id"
-          :to="`/stories/company/${company.id}`"
-          class="bg-secondary-light rounded-xl p-4 flex items-center justify-center h-24 shadow-sm hover:shadow-md transition-shadow">
+          :to="
+            company.detail_page_enabled ? `/stories/company/${company.id}` : '#'
+          "
+          :class="[
+            'bg-secondary-light rounded-xl p-4 flex items-center justify-center h-24 shadow-sm transition-shadow',
+            company.detail_page_enabled
+              ? 'hover:shadow-md cursor-pointer'
+              : 'cursor-default',
+          ]">
           <img
-            :src="company.logo"
+            :src="company.logo || '/images/placeholder-logo.png'"
             :alt="company.name"
             class="max-h-12 max-w-full object-contain" />
         </NuxtLink>
       </div>
 
+      <!-- Empty State -->
+      <div v-else class="text-center py-10">
+        <p class="text-blue text-xl">კომპანიები არ მოიძებნა</p>
+      </div>
+
       <!-- Pagination -->
       <UiPagination
-        v-if="pagination"
+        v-if="pagination && paginationData.lastPage > 1"
         v-model:current-page="currentPage"
-        :total-pages="totalPages" />
-      <div v-else class="mt-10 text-center">
+        :total-pages="paginationData.lastPage" />
+      <div
+        v-else-if="!pagination && heroCompanies.length > 0"
+        class="mt-10 text-center">
         <NuxtLink
           to="/stories?search=heroes_companies"
           class="text-blue text-3xl font-sans font-normal underline tracking-wide font-case">

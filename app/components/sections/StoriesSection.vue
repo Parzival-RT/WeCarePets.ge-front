@@ -6,127 +6,66 @@ const props = defineProps<{
   headerDesc?: string | undefined;
 }>();
 
+const {
+  stories,
+  pagination: paginationData,
+  isLoading,
+  fetchStories,
+} = useStories();
+
 // Pagination state
 const currentPage = ref(1);
-const totalPages = ref(100); // მოგვიანებით API-დან მოვა
 
-// Watch page changes - შეცვალე API call-ით
-watch(currentPage, (newPage) => {
-  console.log(`[Pagination] გვერდი შეიცვალა: ${newPage}`);
-  console.log(`[API] GET /api/stories?page=${newPage}`);
-  // TODO: აქ ჩაწერე API call
-  // const { data } = await useFetch(`/api/stories?page=${newPage}`);
-  // stories.value = data.value.data;
-  // totalPages.value = data.value.meta.last_page;
+// Fetch stories on mount and page change
+const loadStories = async () => {
+  const params: any = { page: currentPage.value, authCheck: false };
+
+  // Filter by hero if provided
+  if (props.heroType && props.heroId) {
+    params.heroable_type = props.heroType;
+    params.heroable_id = Number(props.heroId);
+  }
+
+  await fetchStories(params);
+};
+
+// Initial fetch
+onMounted(() => {
+  loadStories();
 });
 
-// Mock data for stories (will come from API later)
-const stories = ref([
-  {
-    id: 1,
-    name: "ბიმი",
-    image:
-      "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+// Watch page changes
+watch(currentPage, () => {
+  loadStories();
+});
+
+// Watch hero props changes
+watch(
+  () => [props.heroType, props.heroId],
+  () => {
+    currentPage.value = 1;
+    loadStories();
   },
-  {
-    id: 2,
-    name: "ჯესი",
-    image:
-      "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 3,
-    name: "ბიმი",
-    image:
-      "https://images.unsplash.com/photo-1561037404-61cd46aa615b?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 4,
-    name: "ჯესი",
-    image:
-      "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 5,
-    name: "ბიმი",
-    image:
-      "https://images.unsplash.com/photo-1596854407944-bf87f6fdd49e?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 6,
-    name: "ჯესი",
-    image:
-      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 7,
-    name: "ბიმი",
-    image:
-      "https://images.unsplash.com/photo-1477884213360-7e9d7dcc1e48?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 8,
-    name: "ჯესი",
-    image:
-      "https://images.unsplash.com/photo-1574158622682-e40e69881006?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 9,
-    name: "ბიმი",
-    image:
-      "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 10,
-    name: "ჯესი",
-    image:
-      "https://images.unsplash.com/photo-1495360010541-f48722b34f7d?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 11,
-    name: "ბიმი",
-    image:
-      "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-  {
-    id: 12,
-    name: "ჯესი",
-    image:
-      "https://images.unsplash.com/photo-1533743983669-94fa5c4338ec?w=300&h=300&fit=crop",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-  },
-]);
+);
 
 // Modal state
 const isModalOpen = ref(false);
 const selectedStory = ref<{
   id: number;
   name: string;
-  image: string;
-  videoUrl: string;
+  cover_image: string | null;
+  video_url: string | null;
 } | null>(null);
 
 // Open modal
 const openModal = (story: {
   id: number;
   name: string;
-  image: string;
-  videoUrl: string;
+  cover_image: string | null;
+  video_url: string | null;
 }) => {
   selectedStory.value = story;
   isModalOpen.value = true;
-  // Prevent body scroll when modal is open
   document.body.style.overflow = "hidden";
 };
 
@@ -134,7 +73,6 @@ const openModal = (story: {
 const closeModal = () => {
   isModalOpen.value = false;
   selectedStory.value = null;
-  // Restore body scroll
   document.body.style.overflow = "auto";
 };
 
@@ -176,15 +114,22 @@ onMounted(() => {
           v-else
           class="text-blue font-normal mb-20"
           :class="{
-            'text-3xl mx-auto font-case underline': pagination,
+            'text-3xl mx-auto font-case': pagination,
             'text-xl': !pagination,
           }">
           {{ headerDesc }}
         </p>
       </div>
 
+      <!-- Loading State -->
+      <div v-if="isLoading" class="flex justify-center py-20">
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+
       <!-- Stories Grid - 4x3 -->
       <div
+        v-else-if="stories.length > 0"
         class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6">
         <div
           v-for="story in stories"
@@ -193,7 +138,7 @@ onMounted(() => {
           <!-- Image -->
           <div class="aspect-video">
             <img
-              :src="story.image"
+              :src="story.cover_image || '/images/placeholder.jpg'"
               :alt="story.name"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
@@ -210,7 +155,9 @@ onMounted(() => {
             </div>
 
             <!-- Video Link -->
-            <div class="absolute bottom-2 md:bottom-4 right-2 md:right-4">
+            <div
+              v-if="story.video_url"
+              class="absolute bottom-2 md:bottom-4 right-2 md:right-4">
               <button
                 @click="openModal(story)"
                 class="text-white hover:text-primary text-[0.3rem] md:text-[0.5rem] font-medium flex items-end flex-col gap-1 transition-colors">
@@ -234,12 +181,19 @@ onMounted(() => {
         </div>
       </div>
 
+      <!-- Empty State -->
+      <div v-else class="text-center py-20">
+        <p class="text-blue text-xl">ისტორიები არ მოიძებნა</p>
+      </div>
+
       <!-- Pagination -->
       <UiPagination
-        v-if="pagination"
+        v-if="pagination && paginationData.lastPage > 1"
         v-model:current-page="currentPage"
-        :total-pages="totalPages" />
-      <div v-else class="mt-10 text-center">
+        :total-pages="paginationData.lastPage" />
+      <div
+        v-else-if="!pagination && stories.length > 0"
+        class="mt-10 text-center">
         <NuxtLink
           to="/stories?search=pets"
           class="text-blue text-3xl font-sans font-normal underline tracking-wide font-case">
@@ -292,7 +246,7 @@ onMounted(() => {
             <div class="relative w-full" style="padding-bottom: 56.25%">
               <iframe
                 v-if="selectedStory"
-                :src="selectedStory.videoUrl"
+                :src="selectedStory.video_url || ''"
                 class="absolute inset-0 w-full h-full"
                 frameborder="0"
                 allow="

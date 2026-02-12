@@ -98,7 +98,7 @@ const packages = [
         <div
           v-for="pkg in packages"
           :key="pkg.id"
-          class="relative rounded-2xl overflow-hidden shadow-lg border"
+          class="relative rounded-2xl overflow-hidden shadow-lg border hover:border-dark hover:bg-secondary/5 transition-colors"
           :class="
             pkg.popular
               ? 'border-dark bg-secondary/5'
@@ -144,7 +144,7 @@ const packages = [
               :class="
                 pkg.id === 'friend'
                   ? 'bg-blue hover:bg-secondary text-white'
-                  : 'border border-blue hover:bg-secondary-light text-blue'
+                  : 'border border-blue hover:bg-blue text-blue hover:text-white'
               ">
               დახმარება
             </button>
@@ -182,7 +182,7 @@ const packages = [
       <!-- Founders Notice -->
       <div class="mt-12 text-center max-w-3xl mx-auto">
         <p class="text-gray-600">
-          პირველ 30 კომპანიას გადაეცემათ „<span class="text-primary font-bold"
+          პირველ 30 კომპანიას გადაეცემა „<span class="text-primary font-bold"
             >დამფუძნებლის სტატუსი</span
           >", ეს არის პატივი მათთვის, ვინც პირველებმა თქვეს -
           <span class="font-bold text-secondary"

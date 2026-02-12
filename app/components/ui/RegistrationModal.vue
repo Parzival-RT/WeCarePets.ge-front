@@ -6,15 +6,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   close: [];
-  submit: [data: FormData];
+  submit: [data: any];
 }>();
 
-interface FormData {
-  companyName: string;
-  contactPerson: string;
-  phone: string;
-  package: string;
-}
+const { isSubmitting, error, submitRegistration } = useRegistration();
 
 const packageOptions = [
   { id: "supporter", name: "მხარდამჭერი (300₾/თვე)" },
@@ -23,21 +18,20 @@ const packageOptions = [
   { id: "cofounder", name: "თანადამფუძნებელი (2500₾/თვე)" },
 ];
 
-const form = reactive<FormData>({
-  companyName: "",
-  contactPerson: "",
+const form = reactive({
+  company_name: "",
+  contact_person: "",
   phone: "",
-  package: props.selectedPackage || "",
+  package: props.selectedPackage || "" as 'supporter' | 'friend' | 'partner' | 'cofounder' | '',
 });
 
-const isSubmitting = ref(false);
 const isSuccess = ref(false);
 
 watch(
   () => props.selectedPackage,
   (newVal) => {
     if (newVal) {
-      form.package = newVal;
+      form.package = newVal as typeof form.package;
     }
   },
 );
@@ -47,36 +41,40 @@ watch(
   (isOpen) => {
     if (isOpen) {
       isSuccess.value = false;
+      error.value = null;
     }
   },
 );
 
 const handleSubmit = async () => {
   if (
-    !form.companyName ||
-    !form.contactPerson ||
+    !form.company_name ||
+    !form.contact_person ||
     !form.phone ||
     !form.package
   ) {
     return;
   }
 
-  isSubmitting.value = true;
+  const success = await submitRegistration({
+    company_name: form.company_name,
+    contact_person: form.contact_person,
+    phone: form.phone,
+    package: form.package as 'supporter' | 'friend' | 'partner' | 'cofounder',
+  });
 
-  // Simulate API call (will be replaced with actual API)
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  if (success) {
+    emit("submit", { ...form });
+    isSuccess.value = true;
 
-  emit("submit", { ...form });
-  isSubmitting.value = false;
-  isSuccess.value = true;
-
-  // Reset form
-  setTimeout(() => {
-    form.companyName = "";
-    form.contactPerson = "";
-    form.phone = "";
-    form.package = "";
-  }, 500);
+    // Reset form
+    setTimeout(() => {
+      form.company_name = "";
+      form.contact_person = "";
+      form.phone = "";
+      form.package = "";
+    }, 500);
+  }
 };
 </script>
 
@@ -154,6 +152,11 @@ const handleSubmit = async () => {
                 შეავსე ფორმა და ჩვენ დაგიკავშირდებით
               </p>
 
+              <!-- Error Message -->
+              <div v-if="error" class="mt-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg">
+                {{ error }}
+              </div>
+
               <form @submit.prevent="handleSubmit" class="mt-8 space-y-5">
                 <!-- Company Name -->
                 <div>
@@ -161,7 +164,7 @@ const handleSubmit = async () => {
                     კომპანიის დასახელება *
                   </label>
                   <input
-                    v-model="form.companyName"
+                    v-model="form.company_name"
                     type="text"
                     required
                     class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
@@ -174,7 +177,7 @@ const handleSubmit = async () => {
                     საკონტაქტო პირი *
                   </label>
                   <input
-                    v-model="form.contactPerson"
+                    v-model="form.contact_person"
                     type="text"
                     required
                     class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
@@ -191,7 +194,7 @@ const handleSubmit = async () => {
                     type="tel"
                     required
                     class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                    placeholder="5XX XXX XXX" />
+                    placeholder="+995 5XX XXX XXX" />
                 </div>
 
                 <!-- Package Selection -->

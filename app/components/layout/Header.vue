@@ -11,6 +11,7 @@ const isMenuOpen = ref(false);
 
 const navItems = [
   { label: "როგორ მუშაობს", href: "#how-it-works" },
+  { label: "პაკეტები", href: "#packages" },
   { label: "ცხოველების ისტორიები", href: "#stories" },
 ];
 
@@ -77,7 +78,7 @@ const handleCtaClick = () => {
             v-for="item in navItems"
             :key="item.href"
             @click="scrollToSection(item.href)"
-            class="hover:text-primary font-medium transition-colors"
+            class="hover:text-primary font-normal transition-colors"
             :class="
               type === 'company' || type === 'person'
                 ? 'text-white'
@@ -87,7 +88,7 @@ const handleCtaClick = () => {
           </button>
           <button
             @click="handleCtaClick"
-            class="bg-blue text-white font-semibold py-3 px-8 rounded-full transition-colors"
+            class="bg-blue text-white font-caps font-case font-semibold py-3 px-8 rounded-full transition-colors"
             :class="
               type === 'company' || type === 'person'
                 ? 'bg-primary hover:bg-primary-500'
@@ -100,7 +101,10 @@ const handleCtaClick = () => {
         <!-- Mobile Menu Button -->
         <button
           @click="isMenuOpen = !isMenuOpen"
-          class="lg:hidden p-2 text-gray-700">
+          class="lg:hidden p-2"
+          :class="
+            type === 'company' || type === 'person' ? 'text-white' : 'text-blue'
+          ">
           <svg
             v-if="!isMenuOpen"
             class="w-6 h-6"
@@ -142,12 +146,22 @@ const handleCtaClick = () => {
               v-for="item in navItems"
               :key="item.href"
               @click="scrollToSection(item.href)"
-              class="text-gray-700 hover:text-primary font-medium py-2 text-left">
+              :class="
+                type === 'company' || type === 'person'
+                  ? 'text-white hover:text-primary'
+                  : 'text-blue hover:text-primary'
+              "
+              class="font-medium py-2 text-left">
               {{ item.label }}
             </button>
             <button
               @click="handleCtaClick"
-              class="bg-blue hover:bg-blue-950 text-white font-semibold py-3 px-8 rounded-full mt-2 transition-colors">
+              :class="
+                type === 'company' || type === 'person'
+                  ? 'text-white bg-primary hover:bg-primary-950'
+                  : 'text-white bg-blue hover:bg-blue-950'
+              "
+              class="font-semibold py-3 px-8 rounded-full mt-2 transition-colors">
               დაეხმარე ცხოველებს
             </button>
           </div>

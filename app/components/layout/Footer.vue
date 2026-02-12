@@ -5,10 +5,9 @@ const footerLinks = {
   main: [
     { label: "პაკეტები", href: "#packages" },
     { label: "როგორ მუშაობს", href: "#how-it-works" },
-    { label: "ჩვენი ერთობის ძალა", href: "#mission" },
     { label: "ჩვენი შედეგები", href: "#results" },
     { label: "ცხოველების ისტორიები", href: "#stories" },
-    { label: "Founders Club – პირველი 20", href: "#founders" },
+    { label: "Founders Club – პირველი 30", href: "#founders" },
     { label: "ჩვენი გმირები (კომპანიები)", href: "#heroes-companies" },
     { label: "ჩვენი გმირები (ადამიანები)", href: "#heroes-people" },
   ],
@@ -41,7 +40,7 @@ const scrollToSection = (href: string) => {
       <div class="grid md:grid-cols-3 gap-12">
         <!-- Column 1: Main Links -->
         <div>
-          <h3 class="font-bold text-2xl mb-6">
+          <h3 class="font-caps font-bold font-case text-2xl mb-6">
             <span class="text-white">ერთად</span><br />
             <span class="text-white">ცხოველებისთვის</span>
           </h3>
@@ -58,7 +57,9 @@ const scrollToSection = (href: string) => {
 
         <!-- Column 2: Support -->
         <div>
-          <h3 class="font-bold text-2xl mb-6">მხარდაჭერა</h3>
+          <h3 class="font-caps font-bold font-case text-2xl mb-6">
+            მხარდაჭერა
+          </h3>
           <ul class="space-y-3">
             <li v-for="link in footerLinks.support" :key="link.label">
               <button
@@ -72,7 +73,7 @@ const scrollToSection = (href: string) => {
 
         <!-- Column 3: Contact -->
         <div>
-          <h3 class="font-bold text-2xl mb-6">კონტაქტი</h3>
+          <h3 class="font-caps font-bold font-case text-2xl mb-6">კონტაქტი</h3>
 
           <div class="space-y-3">
             <a

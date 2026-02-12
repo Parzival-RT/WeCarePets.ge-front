@@ -42,7 +42,7 @@ const scrollToPackages = () => {
 
 <template>
   <section
-    class="relative min-h-[600px] md:h-screen pt-20"
+    class="relative h-[600px] md:h-screen pt-20"
     :class="route.name === 'stories' ? 'border-b-4 border-primary' : ''">
     <!-- Background Image -->
     <div class="absolute inset-0">
@@ -72,7 +72,7 @@ const scrollToPackages = () => {
         <button
           @click="scrollToPackages"
           class="mt-5 md:mt-7 bg-primary hover:bg-primary-600 text-white font-caps font-normal font-case py-4 px-10 rounded-full text-md md:text-2xl transition-colors shadow-lg">
-          დაეხმარე ცხოველეებს
+          დაეხმარე ცხოველებს
         </button>
       </div>
     </div>
