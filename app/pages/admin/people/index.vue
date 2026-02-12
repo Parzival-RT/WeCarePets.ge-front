@@ -18,14 +18,19 @@ const editingPerson = ref<any>(null);
 // Pagination
 const currentPage = ref(1);
 
+// Filter
+const personName = ref<string>("");
+
 // Fetch people
 const loadPeople = async () => {
   isLoading.value = true;
   try {
-    const response = await apiGet<{ data: any[]; meta: any }>("/admin/people", {
-      page: currentPage.value,
-      per_page: 15,
-    });
+    const params: any = { page: currentPage.value, per_page: 15 };
+    if (personName.value !== "") params.name = personName.value;
+    const response = await apiGet<{ data: any[]; meta: any }>(
+      "/admin/people",
+      params,
+    );
     adminPeople.value = response.data || [];
     pagination.value = {
       currentPage: response.meta?.current_page || 1,
@@ -47,7 +52,7 @@ onMounted(async () => {
   }
 });
 
-watch(currentPage, () => {
+watch([currentPage, personName], () => {
   loadPeople();
 });
 
@@ -109,6 +114,15 @@ const handleDelete = async (id: number) => {
           დამატება
         </button>
       </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="mb-6 flex flex-wrap gap-4">
+      <input
+        v-model="personName"
+        class="max-w-[300px] w-full px-4 py-2 border border-gray-300 rounded-lg text-sm focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
+        placeholder="გმირის სახელი"
+        type="text" />
     </div>
 
     <!-- Loading State -->
