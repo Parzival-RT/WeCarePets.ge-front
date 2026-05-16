@@ -26,6 +26,17 @@ const currentPage = ref(1);
 const filterCategory = ref<"" | "helped" | "healed">("");
 const filterStatus = ref<"" | "active" | "inactive">("");
 
+const config = useRuntimeConfig();
+
+// ეს ფუნქცია ავტომატურად დასვამს სწორ Base URL-ს ფრონტის გარემოს მიხედვით
+const getImageUrl = (fullUrl: string) => {
+  // თუ ბექიდან სრული ლინკი მოდის, ამოვჭრათ მხოლოდ სთორიჯის გზა (მაგ: storage/stories/photo.png)
+  const storagePath = fullUrl.replace(/^https?:\/\/[^\/]+\//, "");
+
+  // დავაკავშიროთ Nuxt-ის Base URL-თან
+  return `${config.public.apiBase}/${storagePath}`;
+};
+
 // Fetch stories with filters
 const loadStories = async () => {
   const params: any = { page: currentPage.value, authCheck: true };
@@ -286,8 +297,16 @@ const handleDelete = async (id: number) => {
               :key="story.id"
               class="hover:bg-gray-50">
               <td class="px-6 py-4 whitespace-nowrap">
-                <img
+                <!-- <img
                   :src="story.cover_image || '/images/placeholder.jpg'"
+                  :alt="story.name"
+                  class="h-12 w-12 rounded-lg object-cover" /> -->
+                <img
+                  :src="
+                    story.cover_image
+                      ? getImageUrl(story.cover_image)
+                      : '/images/placeholder.jpg'
+                  "
                   :alt="story.name"
                   class="h-12 w-12 rounded-lg object-cover" />
               </td>
