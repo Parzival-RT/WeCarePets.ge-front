@@ -1,4 +1,4 @@
-import { getCsrfCookie, apiGet, apiPost } from "~/utils/api";
+import { getToken, setToken, removeToken, apiGet, apiPost } from "~/utils/api";
 
 interface User {
   id: number;
@@ -16,6 +16,7 @@ interface LoginCredentials {
 interface LoginResponse {
   success: boolean;
   user: User;
+  token: string;
 }
 
 interface fetchUserResponse {
@@ -35,12 +36,10 @@ export const useAuth = () => {
 
   const login = async (credentials: LoginCredentials): Promise<boolean> => {
     try {
-      // Get CSRF cookie first
-      await getCsrfCookie();
-
       const response = await apiPost<LoginResponse>("/login", credentials);
 
-      if (response.success && response.user) {
+      if (response.success && response.token && response.user) {
+        setToken(response.token);
         user.value = response.user;
         authInitialized.value = true;
         return true;
@@ -58,6 +57,7 @@ export const useAuth = () => {
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
+      removeToken();
       user.value = null;
       authInitialized.value = true;
       navigateTo("/admin/login");
@@ -71,24 +71,26 @@ export const useAuth = () => {
         user.value = response.data;
       }
     } catch (error) {
+      removeToken();
       user.value = null;
     }
   };
 
   const checkAuth = async (): Promise<boolean> => {
-    // Skip on server-side (cookies not available)
     if (import.meta.server) {
       return false;
     }
 
-    // Already initialized - use cached value
     if (authInitialized.value) {
       return !!user.value;
     }
 
-    // Prevent multiple simultaneous checks
+    if (!getToken()) {
+      authInitialized.value = true;
+      return false;
+    }
+
     if (authLoading.value) {
-      // Wait for existing check to complete
       await new Promise((resolve) => {
         const interval = setInterval(() => {
           if (!authLoading.value) {

@@ -1,5 +1,19 @@
-// API Configuration for Laravel Sanctum SPA Authentication
 const getApiBaseUrl = () => useRuntimeConfig().public.apiBaseUrl as string;
+
+const TOKEN_KEY = 'auth_token';
+
+export const getToken = (): string | null => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(TOKEN_KEY);
+};
+
+export const setToken = (token: string): void => {
+  localStorage.setItem(TOKEN_KEY, token);
+};
+
+export const removeToken = (): void => {
+  localStorage.removeItem(TOKEN_KEY);
+};
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -26,21 +40,6 @@ interface ApiResponse<T> {
   };
 }
 
-// Get CSRF cookie before authenticated requests
-export const getCsrfCookie = async (): Promise<void> => {
-  await $fetch(`${getApiBaseUrl()}/sanctum/csrf-cookie`, {
-    credentials: 'include',
-  });
-};
-
-// Get XSRF token from cookie
-const getXsrfToken = (): string | null => {
-  if (typeof document === 'undefined') return null;
-  const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
-  return match && match[1] ? decodeURIComponent(match[1]) : null;
-};
-
-// API fetch wrapper
 export const api = async <T>(
   endpoint: string,
   options: FetchOptions = {},
@@ -48,7 +47,6 @@ export const api = async <T>(
 ): Promise<T> => {
   const { params, ...fetchOptions } = options;
 
-  // Build URL with query params
   let url = `${getApiBaseUrl()}/api${endpoint}`;
   if (params) {
     const searchParams = new URLSearchParams();
@@ -69,29 +67,23 @@ export const api = async <T>(
     ...(fetchOptions.headers as Record<string, string>),
   };
 
-  // Don't set Content-Type for FormData (browser will set it with boundary)
   if (!isFormData) {
     headers['Content-Type'] = 'application/json';
   }
 
-  // Add XSRF token for non-GET requests
-  if (fetchOptions.method && fetchOptions.method !== 'GET') {
-    const xsrfToken = getXsrfToken();
-    if (xsrfToken) {
-      headers['X-XSRF-TOKEN'] = xsrfToken;
-    }
+  const token = getToken();
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
   }
 
   const response = await $fetch<T>(url, {
     ...fetchOptions,
     headers,
-    credentials: 'include',
   });
 
   return response;
 };
 
-// Typed API methods
 export const apiGet = <T>(endpoint: string, params?: Record<string, string | number | undefined>) =>
   api<T>(endpoint, { method: 'GET', params });
 
@@ -125,5 +117,4 @@ export const apiPatch = <T>(endpoint: string, body?: unknown) => {
 export const apiDelete = <T>(endpoint: string) =>
   api<T>(endpoint, { method: 'DELETE' });
 
-// Export types
 export type { ApiResponse };
