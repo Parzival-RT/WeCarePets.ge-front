@@ -22,43 +22,35 @@ const steps = [
 </script>
 
 <template>
-  <section id="how-it-works" class="py-20 bg-white relative overflow-hidden">
+  <section id="how-it-works" class="py-24 bg-section-alt">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid lg:grid-cols-2 gap-20 items-start">
-        <!-- Left - Image -->
-        <div class="rounded-[5rem] overflow-hidden shadow-xl">
-          <NuxtImg
-            src="/images/how_it_works.jpg"
-            alt="ძაღლი"
-            class="w-full h-auto object-cover" />
-        </div>
+      <!-- Section header centered -->
+      <div class="text-center mb-12 fade-up">
+        <div class="section-label" style="justify-content: center">პროცესი</div>
+        <h2
+          class="font-gilroy text-blue"
+          style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
+          როგორ მუშაობს
+        </h2>
+      </div>
 
-        <!-- Right Content Grid -->
-        <div class="grid md:grid-cols-1 gap-8">
-          <!-- Section Title -->
-          <h2
-            class="text-3xl md:text-5xl font-sans font-extrabold font-case tracking-tighter text-blue text-center">
-            როგორ მუშაობს
-          </h2>
-          <div v-for="step in steps" :key="step.number" class="relative">
-            <div class="flex items-center gap-8">
-              <!-- Step Number -->
-              <div
-                class="w-[70px] h-[70px] text-3xl font-bold bg-primary/20 text-primary mb-4 p-5 rounded-full shrink-0 flex items-center justify-center">
-                {{ step.number }}
-              </div>
-
-              <!-- Step Content -->
-              <div>
-                <h4 class="text-xl font-sans font-semibold font-case text-blue">
-                  {{ step.title }}
-                </h4>
-                <p class="text-gray-600">
-                  {{ step.description }}
-                </p>
-              </div>
-            </div>
+      <!-- 3-column card grid -->
+      <div class="grid md:grid-cols-3 gap-8 mt-12 fade-up" style="transition-delay: 0.15s">
+        <div
+          v-for="step in steps"
+          :key="step.number"
+          class="bg-white rounded-2xl p-9 border border-gray-200 hover:-translate-y-1 hover:shadow-lg hover:border-primary transition-all duration-300">
+          <!-- Step number badge -->
+          <div
+            class="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl text-primary font-gilroy font-bold text-lg mb-5">
+            {{ step.number }}
           </div>
+          <h3 class="font-gilroy text-blue text-lg mb-2.5">
+            {{ step.title }}
+          </h3>
+          <p class="text-sm text-gray-500 leading-[1.75]">
+            {{ step.description }}
+          </p>
         </div>
       </div>
     </div>

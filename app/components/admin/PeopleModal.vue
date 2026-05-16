@@ -10,12 +10,13 @@ const emit = defineEmits<{
 }>();
 
 const isSubmitting = ref(false);
-const error = ref<string | null>(null);
+const errors = ref<string[]>([]);
 
 const form = reactive({
   name_ka: "",
   name_en: "",
   surname_ka: "",
+  status: "active",
 });
 
 // File upload
@@ -49,12 +50,13 @@ watch(
   () => props.isOpen,
   (isOpen) => {
     if (isOpen) {
-      error.value = null;
+      errors.value = [];
 
       if (props.person) {
-        form.name_ka = props.person.name_ka || "";
+        form.name_ka = props.person.name || "";
         form.name_en = props.person.name_en || "";
         form.surname_ka = props.person.surname || "";
+        form.status = props.person.status || "active";
 
         // Set existing image preview
         if (props.person.image) {
@@ -64,6 +66,7 @@ watch(
         form.name_ka = "";
         form.name_en = "";
         form.surname_ka = "";
+        form.status = "active";
         imageFile.value = null;
         imagePreview.value = null;
       }
@@ -72,13 +75,21 @@ watch(
 );
 
 const handleSubmit = async () => {
-  error.value = null;
+  errors.value = [];
+
+  // Validation
+  if (!form.name_ka.trim()) {
+    errors.value = ["ქართული დასახელების მითითება აუცილებელია."];
+    return;
+  }
+
   isSubmitting.value = true;
 
   // Build FormData
   const formData = new FormData();
   formData.append("name_ka", form.name_ka);
   formData.append("name_en", form.name_en);
+  formData.append("status", form.status);
 
   if (form.surname_ka) {
     formData.append("surname_ka", form.surname_ka);
@@ -101,7 +112,13 @@ const handleSubmit = async () => {
     await apiPost(endpoint, formData);
     emit("saved");
   } catch (e: any) {
-    error.value = e.message || "შეცდომა მოხდა";
+    if (e.data?.errors) {
+      errors.value = Object.values(e.data.errors).flat() as string[];
+    } else if (e.data?.message) {
+      errors.value = [e.data.message];
+    } else {
+      errors.value = [e.message || "შეცდომა მოხდა"];
+    }
   } finally {
     isSubmitting.value = false;
   }
@@ -156,11 +173,16 @@ const handleSubmit = async () => {
 
             <!-- Form -->
             <form @submit.prevent="handleSubmit" class="p-6">
-              <!-- Error -->
+              <!-- Errors -->
               <div
-                v-if="error"
+                v-if="errors.length"
                 class="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
-                {{ error }}
+                <ul
+                  v-if="errors.length > 1"
+                  class="list-disc list-inside space-y-1">
+                  <li v-for="(err, index) in errors" :key="index">{{ err }}</li>
+                </ul>
+                <span v-else>{{ errors[0] }}</span>
               </div>
 
               <div class="space-y-5">
@@ -200,6 +222,29 @@ const handleSubmit = async () => {
                     type="text"
                     placeholder="გვარი"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+                </div>
+
+                <!-- Status Toggle -->
+                <div class="flex items-center justify-between">
+                  <div>
+                    <label class="text-sm font-medium text-gray-700">სტატუსი</label>
+                    <p class="text-xs text-gray-500">
+                      {{ form.status === "active" ? "აქტიური" : "არააქტიური" }}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    @click="form.status = form.status === 'active' ? 'inactive' : 'active'"
+                    :class="[
+                      'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out',
+                      form.status === 'active' ? 'bg-primary' : 'bg-gray-200',
+                    ]">
+                    <span
+                      :class="[
+                        'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                        form.status === 'active' ? 'translate-x-5' : 'translate-x-0',
+                      ]" />
+                  </button>
                 </div>
 
                 <!-- Image Upload -->

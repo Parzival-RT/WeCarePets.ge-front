@@ -10,81 +10,67 @@ const {
   fetchPeople,
 } = usePeople();
 
-// Pagination state
 const currentPage = ref(1);
 
-// Fetch people on mount
 onMounted(() => {
   fetchPeople(currentPage.value);
 });
 
-// Watch page changes
 watch(currentPage, (newPage) => {
   fetchPeople(newPage);
 });
 </script>
 
 <template>
-  <section id="heroes-people" class="py-20 bg-white">
+  <section id="heroes-people" class="py-24 bg-section-alt">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Section Header -->
-      <div class="text-center mb-12">
+      <!-- Section header -->
+      <div class="text-center mb-12 fade-up">
+        <div class="section-label" style="justify-content: center">ჩვენი გმირები</div>
         <h2
           v-if="!pagination"
-          class="text-3xl md:text-5xl tracking-tighter font-sans font-extrabold font-case text-blue">
-          ჩვენი გმირები
-        </h2>
-        <p class="text-blue mt-3 text-3xl mb-20">
+          class="font-gilroy text-blue"
+          style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
           ადამიანები, რომლებიც უკვე ზრუნავენ ცხოველებზე
-        </p>
+        </h2>
       </div>
 
-      <!-- Loading State -->
+      <!-- Loading -->
       <div v-if="isLoading" class="flex justify-center py-10">
-        <div
-          class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
 
-      <!-- People Grid -->
+      <!-- People grid -->
       <div
         v-else-if="people.length > 0"
-        class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-16">
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 fade-up" style="transition-delay: 0.15s">
         <NuxtLink
           v-for="person in people"
           :key="person.id"
           :to="`/stories/person/${person.id}`"
-          class="text-center relative">
-          <!-- <div
-            class="absolute inset-0 bg-gradient-to-t from-black/30 via-black/20 to-transparent rounded-[3rem] md:rounded-[4rem] scale-100 hover:scale-110 transition-all ease-out z-30"></div> -->
-          <!-- Avatar -->
+          class="text-center bg-white rounded-2xl py-5 px-3 hover:-translate-y-1 hover:shadow-lg transition-all duration-300">
+          <!-- Circular avatar -->
           <div
-            class="mx-auto rounded-[3rem] md:rounded-[4rem] aspect-[1/1.3] overflow-hidden shadow-lg scale-100 hover:scale-110 transition-all ease-out">
+            class="w-20 h-20 mx-auto rounded-full overflow-hidden bg-gray-200 mb-3">
             <img
-              :src="person.image || '/images/placeholder-avatar.jpg'"
+              :src="person.image || '/images/placeholder-avatar.svg'"
               :alt="person.full_name"
               class="w-full h-full object-cover" />
           </div>
-
           <!-- Name -->
-          <div class="mt-4">
-            <p
-              class="font-sans font-normal text-xl md:text-2xl font-case text-blue">
-              {{ person.name }}
-            </p>
-            <p
-              class="font-sans font-normal text-xl md:text-2xl font-case text-blue">
-              {{ person.surname }}
-            </p>
-          </div>
+          <p class="text-[0.82rem] font-semibold text-blue leading-snug">
+            {{ person.name }}<br />
+            {{ person.surname }}
+          </p>
         </NuxtLink>
       </div>
 
-      <!-- Empty State -->
+      <!-- Empty state -->
       <div v-else class="text-center py-10">
-        <p class="text-blue text-xl">გმირები არ მოიძებნა</p>
+        <p class="text-gray-500 text-lg">გმირები არ მოიძებნა</p>
       </div>
 
-      <!-- Pagination -->
+      <!-- Pagination / More link -->
       <UiPagination
         v-if="pagination && paginationData.lastPage > 1"
         v-model:current-page="currentPage"
@@ -94,7 +80,7 @@ watch(currentPage, (newPage) => {
         class="mt-10 text-center">
         <NuxtLink
           to="/stories?search=heroes_people"
-          class="text-blue text-3xl font-sans font-normal underline tracking-wide font-case">
+          class="btn-outline text-sm">
           მეტის ნახვა
         </NuxtLink>
       </div>

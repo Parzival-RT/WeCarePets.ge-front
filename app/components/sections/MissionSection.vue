@@ -1,72 +1,84 @@
 <script setup lang="ts">
-const steps = [
+const values = [
   {
-    number: "01",
-    title: "შემოუერთდი მოძრაობას",
-    description:
-      "აირჩიე პაკეტი, თუნდაც მცირე — თვეში 300 ლარიც კი ცვლის ცხოველების ცხოვრებას",
+    num: "1",
+    title: "გამჭვირვალობა",
+    desc: "ყოველი ლარის გზა ჩანს — საიტზე ხილულია ყველა ხარჯი და შედეგი.",
   },
   {
-    number: "02",
-    title: "ფონდი ანაწილებს დახმარებას",
-    description:
-      "შემოსული თანხა ნაწილდება, მათთან ვისაც ეს ყველაზე მეტად სჭირდება.",
+    num: "2",
+    title: "ერთობა",
+    desc: "არა ერთი დიდი დონორი, არამედ ბევრი ადამიანისა და კომპანიის ერთობლივი ძალა.",
   },
   {
-    number: "03",
-    title: "გახდი მათი გადარჩენის ისტორიის ნაწილი",
-    description:
-      "ჩვენ გვჯერა გულწრფელობის. საიტზე ნებისმიერ დროს ნახავ, როგორ იქცა შენი დონაცია კონკრეტული ცხოველის საკვებად და წამლად. შენი წვლილი ხილულია.",
+    num: "3",
+    title: "ანგარიშვალდებულება",
+    desc: "ყოველთვიური ანგარიშები, ვიდეო-მონიტორინგი, დოკუმენტირებული შედეგები.",
   },
 ];
 </script>
 
 <template>
-  <section class="py-20 bg-white relative overflow-hidden">
-    <div class="absolute -bottom-20 -right-20 z-0">
-      <NuxtImg
-        src="/images/bg_mission.svg"
-        alt=""
-        class="w-full h-full object-contain" />
-    </div>
-
+  <section class="py-24 bg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Section Title -->
-      <h2
-        class="text-3xl md:text-5xl font-sans font-extrabold font-case tracking-tighter text-blue mb-5 md:mb-12">
-        რატომ ვაკეთებთ ამას
-      </h2>
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+        <!-- Left: Text content -->
+        <div class="fade-up">
+          <div class="section-label">ჩვენი ერთობის ძალა</div>
+          <h2
+            class="font-gilroy text-blue mb-5"
+            style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
+            რატომ ვაკეთებთ ამას
+          </h2>
 
-      <!-- Main Content Grid -->
-      <div class="grid lg:grid-cols-1 items-start">
-        <!-- Left - Image -->
-        <!-- <div class="rounded-3xl overflow-hidden shadow-xl">
-          <img
-            src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&h=600&fit=crop"
-            alt="ძაღლის თვალი"
-            class="w-full h-auto object-cover" />
-        </div> -->
+          <div class="space-y-4 text-gray-500 leading-[1.9]">
+            <p>ისინი ვერ გვეუბნებიან „მადლობას".</p>
+            <p>
+              მაგრამ ჩვენ ვხედავთ — როცა ვაჭმევთ მათ, როცა მკურნალობენ, როცა
+              თავშესაფარში პირველად იძინებენ სითბოში. ეს მოძრაობა შეიქმნა
+              იმისთვის, რომ ყველა ქართველს და ქართულ კომპანიას ჰქონდეს გზა,
+              აჩვენოს რომ ზრუნავს.
+            </p>
+            <p class="font-semibold text-blue">
+              ეს მხოლოდ საქველმოქმედო პროექტი არაა — ეს ერთობის ძალაა.
+            </p>
+            <p>
+              ჩვენი მისია მარტივია: ვიყოთ ხიდი მათთვის, ვისაც დაცვა სჭირდება და
+              შენთვის, ვისაც დახმარება უნდა. შენი ენერგია ჩვენს საქმეს
+              აცოცხლებს. ჩვენ არ ვცვლით სამყაროს მარტო — ჩვენ ამას შენთან ერთად
+              ვაკეთებთ.
+            </p>
+          </div>
 
-        <!-- Right - Text Content -->
-        <div
-          class="max-full md:max-w-3xl text-gray-700 text-lg leading-relaxed z-10">
-          <p>ისინი ვერ გვეუბნებიან „მადლობას“.</p>
-          <p>
-            მაგრამ ჩვენ ვხედავთ — როცა ვაჭმევთ მათ, როცა მკურნალობენ, როცა
-            თავშესაფარში პირველად იძინებენ სითბოში. ეს მოძრაობა შეიქმნა
-            იმისთვის, რომ ყველა ქართველს და ქართულ კომპანიას ჰქონდეს გზა,
-            აჩვენოს რომ ზრუნავს.
-          </p>
-          <p class="font-semibold text-secondary mb-5">
-            ეს მხოლოდ საქველმოქმედო პროექტი არაა — ეს ერთობის ძალაა.
-          </p>
-          <p>
-            ჩვენი მისია მარტივია: ვიყოთ ხიდი მათთვის, ვისაც დაცვა სჭირდება და
-            შენთვის, ვისაც დახმარება უნდა. შენი ენერგია ჩვენს საქმეს აცოცხლებს.
-            ჩვენ არ ვცვლით სამყაროს მარტო — ჩვენ ამას შენთან ერთად ვაკეთებთ.
-            ერთად შევქმნათ გარემო, სადაც ერთგულება ფასობს და ზრუნვა ყველასთვის
-            ბუნებრივი მდგომარეობაა
-          </p>
+          <!-- Values -->
+          <div class="flex flex-col gap-5 mt-8">
+            <div
+              v-for="val in values"
+              :key="val.num"
+              class="flex gap-4 items-start">
+              <div
+                class="w-9 h-9 min-w-[36px] bg-primary rounded-full flex items-center justify-center text-sm font-bold text-white font-gilroy">
+                {{ val.num }}
+              </div>
+              <div>
+                <h4
+                  class="text-sm font-caps font-semibold text-blue mb-1 font-case">
+                  {{ val.title }}
+                </h4>
+                <p class="text-sm text-gray-500 leading-relaxed">
+                  {{ val.desc }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Image -->
+        <div class="rounded-3xl overflow-hidden shadow-lg aspect-square fade-up" style="transition-delay: 0.2s">
+          <NuxtImg
+            src="/images/how_it_works.jpg"
+            alt="ცხოველი"
+            class="w-full h-full object-cover" />
         </div>
       </div>
     </div>

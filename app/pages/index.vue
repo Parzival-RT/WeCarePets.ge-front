@@ -53,6 +53,9 @@ const handleFormSubmit = (data: any) => {
 
       <!-- CTA Section -->
       <SectionsCtaSection @open-modal="openModal" />
+
+      <!-- Contact Section -->
+      <SectionsContactSection />
     </main>
 
     <!-- Footer -->

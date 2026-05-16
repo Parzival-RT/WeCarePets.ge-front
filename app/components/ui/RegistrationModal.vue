@@ -22,7 +22,9 @@ const form = reactive({
   company_name: "",
   contact_person: "",
   phone: "",
-  package: props.selectedPackage || "" as 'supporter' | 'friend' | 'partner' | 'cofounder' | '',
+  package:
+    props.selectedPackage ||
+    ("" as "supporter" | "friend" | "partner" | "cofounder" | ""),
 });
 
 const isSuccess = ref(false);
@@ -60,7 +62,7 @@ const handleSubmit = async () => {
     company_name: form.company_name,
     contact_person: form.contact_person,
     phone: form.phone,
-    package: form.package as 'supporter' | 'friend' | 'partner' | 'cofounder',
+    package: form.package as "supporter" | "friend" | "partner" | "cofounder",
   });
 
   if (success) {
@@ -153,7 +155,9 @@ const handleSubmit = async () => {
               </p>
 
               <!-- Error Message -->
-              <div v-if="error" class="mt-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg">
+              <div
+                v-if="error"
+                class="mt-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded-lg">
                 {{ error }}
               </div>
 
@@ -220,7 +224,7 @@ const handleSubmit = async () => {
                 <button
                   type="submit"
                   :disabled="isSubmitting"
-                  class="w-full btn-primary py-4 text-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                  class="w-full btn-primary py-4 text-lg justify-center disabled:opacity-70 disabled:cursor-not-allowed">
                   <span
                     v-if="isSubmitting"
                     class="flex items-center justify-center gap-2">

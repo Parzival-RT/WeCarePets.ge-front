@@ -86,31 +86,63 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    font-size: 16px;
   }
 
   body {
-    @apply font-sans text-dark antialiased;
+    @apply font-sans text-dark antialiased bg-cream;
+    line-height: 1.7;
+    overflow-x: hidden;
   }
+
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { @apply bg-cream; }
+  ::-webkit-scrollbar-thumb { @apply bg-primary rounded; }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-primary text-white font-semibold py-3 px-8 rounded-full hover:bg-primary-600 transition-colors duration-300;
+    @apply inline-flex items-center gap-2.5 bg-primary text-white font-semibold py-3.5 px-8 rounded-full hover:bg-warm-dark transition-all duration-300 shadow-lg hover:-translate-y-0.5;
+    box-shadow: 0 8px 30px rgba(245, 166, 35, 0.25);
   }
 
   .btn-outline {
-    @apply border-2 border-primary text-primary font-semibold py-3 px-8 rounded-full hover:bg-primary hover:text-white transition-colors duration-300;
+    @apply inline-flex items-center gap-2.5 border-2 border-gray-200 text-blue font-semibold py-3.5 px-8 rounded-full hover:border-primary hover:text-primary transition-all duration-300 hover:-translate-y-0.5;
+  }
+
+  .section-label {
+    @apply inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-primary mb-4;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 2rem;
+    height: 2px;
+    background-color: #F5A623;
+    border-radius: 1px;
   }
 
   .section-title {
-    @apply text-3xl md:text-4xl font-bold text-dark;
+    @apply text-3xl md:text-4xl font-bold text-blue;
   }
 
   .section-subtitle {
-    @apply text-lg text-gray-600 mt-4;
+    @apply text-lg text-gray-500 mt-4;
   }
 
   .container-custom {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

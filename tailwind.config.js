@@ -43,6 +43,13 @@ export default {
         blue: {
           DEFAULT: "#1c2534",
         },
+        cream: "#FFF9F2",
+        "section-alt": "#FAFAF7",
+        warm: {
+          DEFAULT: "#F5A623",
+          light: "#FFF3E0",
+          dark: "#E8941A",
+        },
       },
       fontFamily: {
         sans: ["FiraGO", "sans-serif"],

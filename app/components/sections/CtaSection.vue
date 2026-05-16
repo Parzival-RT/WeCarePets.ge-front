@@ -5,99 +5,42 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <section class="py-20 bg-gray-100 relative">
+  <section class="py-[100px] bg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-3 gap-0 items-center">
-        <!-- Content -->
-        <div class="col-span-2">
+      <div
+        class="rounded-3xl py-[40px] px-[28px] md:p-16 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-center relative overflow-hidden fade-up"
+        style="background: linear-gradient(135deg, #f5a623 0%, #e8941a 100%)">
+        <!-- Decorative circle -->
+        <div
+          class="absolute top-[-50%] right-[-10%] w-[400px] h-[400px] rounded-full pointer-events-none"
+          style="background: rgba(255, 255, 255, 0.08)"></div>
+
+        <!-- Left content -->
+        <div class="relative z-10 text-center md:text-left">
           <h2
-            class="text-3xl md:text-5xl tracking-tighter font-sans font-extrabold font-case text-blue">
+            class="font-gilroy text-white mb-3"
+            style="font-size: clamp(1.6rem, 3vw, 2.2rem); line-height: 1.25">
             როგორ შემიძლია დავეხმარო
           </h2>
-          <p class="text-blue mt-8 text-3xl">
+          <p class="text-white/85 text-base max-w-[500px]">
             შენს კომპანიას შეუძლია დაეხმაროს დღესვე. არ აქვს მნიშვნელობა თანხას
             — მნიშვნელობა აქვს სურვილს.
           </p>
-          <button
-            @click="emit('openModal')"
-            class="mt-8 bg-primary hover:bg-primary-600 text-white font-sans font-normal font-case w-full md:w-auto py-4 px-2 md:px-14 rounded-full text-xl md:text-2xl transition-colors">
-            დაეხმარე ცხოველებს
-          </button>
+          <div class="mt-7">
+            <button
+              @click="emit('openModal')"
+              class="inline-flex items-center bg-white text-blue font-semibold py-[14px] px-8 rounded-full hover:-translate-y-0.5 transition-all duration-200 shadow-md text-[0.95rem]">
+              დაეხმარე ცხოველებს
+            </button>
+          </div>
         </div>
 
-        <!-- Cat Illustration - Line Art -->
-        <div class="flex justify-center md:justify-end">
+        <!-- Right illustration -->
+        <div class="relative z-10 hidden md:flex items-center justify-center">
           <NuxtImg
-            src="/images/cta_section_bg.svg"
+            src="/images/bg_mission.svg"
             alt=""
-            class="hidden md:block max-w-[400px] w-full h-full object-contain absolute bottom-0 -right-20 md:static" />
-          <svg
-            class="w-64 h-72 text-secondary hidden"
-            viewBox="0 0 200 220"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.5">
-            <!-- Cat sitting outline -->
-            <!-- Body -->
-            <path
-              d="M70 200 C50 190 40 160 50 130 C55 110 70 95 85 85"
-              stroke-linecap="round" />
-            <path
-              d="M130 200 C150 190 160 160 150 130 C145 110 130 95 115 85"
-              stroke-linecap="round" />
-
-            <!-- Head -->
-            <ellipse cx="100" cy="70" rx="35" ry="30" />
-
-            <!-- Ears -->
-            <path
-              d="M70 50 L60 20 L80 40"
-              stroke-linecap="round"
-              stroke-linejoin="round" />
-            <path
-              d="M130 50 L140 20 L120 40"
-              stroke-linecap="round"
-              stroke-linejoin="round" />
-
-            <!-- Inner ears -->
-            <path
-              d="M72 45 L67 28 L78 42"
-              stroke-linecap="round"
-              stroke-linejoin="round" />
-            <path
-              d="M128 45 L133 28 L122 42"
-              stroke-linecap="round"
-              stroke-linejoin="round" />
-
-            <!-- Eyes -->
-            <ellipse cx="85" cy="65" rx="6" ry="8" />
-            <ellipse cx="115" cy="65" rx="6" ry="8" />
-
-            <!-- Nose -->
-            <path d="M100 78 L96 85 L104 85 Z" fill="currentColor" />
-
-            <!-- Mouth -->
-            <path d="M100 85 L100 92" stroke-linecap="round" />
-            <path d="M100 92 C95 98 90 98 88 95" stroke-linecap="round" />
-            <path d="M100 92 C105 98 110 98 112 95" stroke-linecap="round" />
-
-            <!-- Whiskers -->
-            <path d="M80 80 L50 75" stroke-linecap="round" />
-            <path d="M80 85 L50 85" stroke-linecap="round" />
-            <path d="M80 90 L50 95" stroke-linecap="round" />
-            <path d="M120 80 L150 75" stroke-linecap="round" />
-            <path d="M120 85 L150 85" stroke-linecap="round" />
-            <path d="M120 90 L150 95" stroke-linecap="round" />
-
-            <!-- Tail -->
-            <path
-              d="M130 200 C160 195 175 180 180 150 C185 130 175 120 165 125"
-              stroke-linecap="round" />
-
-            <!-- Front paws -->
-            <ellipse cx="75" cy="205" rx="12" ry="8" />
-            <ellipse cx="125" cy="205" rx="12" ry="8" />
-          </svg>
+            class="w-[120px] h-[120px] object-contain opacity-25" />
         </div>
       </div>
     </div>

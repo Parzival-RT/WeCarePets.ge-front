@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const route = useRoute();
 const slug = route.params.slug as string[] | undefined;
-const [type, id] = slug || [];
+const [type] = slug || [];
 
 const emit = defineEmits<{
   openModal: [];
@@ -26,6 +26,8 @@ const headerLogo = computed(() => {
   }
 });
 
+const isHeroPage = computed(() => type === "company" || type === "person");
+
 const scrollToSection = (href: string) => {
   isMenuOpen.value = false;
   const element = document.querySelector(href);
@@ -42,57 +44,41 @@ const handleCtaClick = () => {
 
 <template>
   <header
-    class="fixed top-0 left-0 right-0 z-50"
-    :class="type === 'company' || type === 'person' ? 'bg-blue' : 'bg-white'">
+    class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+    :class="
+      isHeroPage
+        ? 'bg-blue border-b border-white/10'
+        : 'border-b border-gray-200/50'
+    "
+    :style="!isHeroPage ? 'background: rgba(255,249,242,0.9); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);' : ''">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-20">
+      <div class="flex items-center justify-between h-[72px]">
         <!-- Logo -->
         <a href="/" class="flex items-center gap-3">
-          <img :src="headerLogo" alt="logo" class="w-72" />
-          <!-- Yellow/Orange circle with paw icon -->
-          <!-- <div
-            class="w-12 h-12 bg-black rounded-full flex items-center justify-center">
-            <svg
-              class="w-7 h-7 text-white"
-              viewBox="0 0 24 24"
-              fill="currentColor">
-
-              <ellipse cx="12" cy="17" rx="4" ry="3.5" />
-              <circle cx="6.5" cy="11" r="2.5" />
-              <circle cx="17.5" cy="11" r="2.5" />
-              <circle cx="9" cy="6.5" r="2" />
-              <circle cx="15" cy="6.5" r="2" />
-            </svg>
-          </div>
-          <div>
-            <span class="text-primary font-bold text-sm font-case">ერთად</span>
-            <p class="text-black font-bold text-lg leading-tight font-case">
-              ცხოველებისთვის
-            </p>
-          </div> -->
+          <img :src="headerLogo" alt="logo" class="w-64" />
         </a>
 
         <!-- Desktop Navigation -->
-        <nav class="hidden lg:flex items-center gap-10">
+        <nav class="hidden lg:flex items-center gap-1.5">
           <button
             v-for="item in navItems"
             :key="item.href"
             @click="scrollToSection(item.href)"
-            class="hover:text-primary font-normal transition-colors"
+            class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200"
             :class="
-              type === 'company' || type === 'person'
-                ? 'text-white'
-                : 'text-blue'
+              isHeroPage
+                ? 'text-white/70 hover:text-white hover:bg-white/10'
+                : 'text-gray-500 hover:text-blue hover:bg-primary/8'
             ">
             {{ item.label }}
           </button>
           <button
             @click="handleCtaClick"
-            class="bg-blue text-white font-caps font-case font-semibold py-3 px-8 rounded-full transition-colors"
+            class="ml-2 py-2.5 px-6 rounded-full font-semibold text-sm transition-all duration-200 hover:-translate-y-px shadow-md"
             :class="
-              type === 'company' || type === 'person'
-                ? 'bg-primary hover:bg-primary-500'
-                : 'bg-blue hover:bg-blue-950'
+              isHeroPage
+                ? 'bg-primary text-white hover:bg-warm-dark shadow-primary/25'
+                : 'bg-primary text-white hover:bg-warm-dark shadow-primary/25'
             ">
             დაეხმარე ცხოველებს
           </button>
@@ -101,10 +87,8 @@ const handleCtaClick = () => {
         <!-- Mobile Menu Button -->
         <button
           @click="isMenuOpen = !isMenuOpen"
-          class="lg:hidden p-2"
-          :class="
-            type === 'company' || type === 'person' ? 'text-white' : 'text-blue'
-          ">
+          class="lg:hidden p-2 rounded-lg transition-colors"
+          :class="isHeroPage ? 'text-white hover:bg-white/10' : 'text-blue hover:bg-primary/10'">
           <svg
             v-if="!isMenuOpen"
             class="w-6 h-6"
@@ -140,28 +124,26 @@ const handleCtaClick = () => {
         leave-active-class="transition duration-150 ease-in"
         leave-from-class="opacity-100 translate-y-0"
         leave-to-class="opacity-0 -translate-y-2">
-        <nav v-if="isMenuOpen" class="lg:hidden pb-4 border-t border-gray-100">
-          <div class="flex flex-col gap-2 pt-4">
+        <nav
+          v-if="isMenuOpen"
+          class="lg:hidden pb-4 border-t"
+          :class="isHeroPage ? 'border-white/10' : 'border-gray-200/60'">
+          <div class="flex flex-col gap-1 pt-4">
             <button
               v-for="item in navItems"
               :key="item.href"
               @click="scrollToSection(item.href)"
+              class="py-2.5 px-4 text-sm font-medium rounded-lg text-left transition-colors"
               :class="
-                type === 'company' || type === 'person'
-                  ? 'text-white hover:text-primary'
-                  : 'text-blue hover:text-primary'
-              "
-              class="font-medium py-2 text-left">
+                isHeroPage
+                  ? 'text-white/70 hover:text-white hover:bg-white/10'
+                  : 'text-gray-500 hover:text-blue hover:bg-primary/8'
+              ">
               {{ item.label }}
             </button>
             <button
               @click="handleCtaClick"
-              :class="
-                type === 'company' || type === 'person'
-                  ? 'text-white bg-primary hover:bg-primary-950'
-                  : 'text-white bg-blue hover:bg-blue-950'
-              "
-              class="font-semibold py-3 px-8 rounded-full mt-2 transition-colors">
+              class="mt-2 py-3 px-6 rounded-full font-semibold text-sm bg-primary text-white hover:bg-warm-dark transition-all">
               დაეხმარე ცხოველებს
             </button>
           </div>

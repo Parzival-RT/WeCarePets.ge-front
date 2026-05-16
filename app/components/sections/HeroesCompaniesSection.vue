@@ -10,45 +10,43 @@ const {
   fetchHeroCompanies,
 } = useCompanies();
 
-// Pagination state
 const currentPage = ref(1);
 
-// Fetch companies on mount
 onMounted(() => {
   fetchHeroCompanies(currentPage.value);
 });
 
-// Watch page changes
 watch(currentPage, (newPage) => {
   fetchHeroCompanies(newPage);
 });
 </script>
 
 <template>
-  <section id="heroes-companies" class="py-20 bg-white">
+  <section id="heroes-companies" class="py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Section Header -->
-      <div class="text-center mb-12">
+      <!-- Section header -->
+      <div class="text-center mb-12 fade-up">
+        <div class="section-label" style="justify-content: center">
+          ჩვენი გმირები
+        </div>
         <h2
           v-if="!pagination"
-          class="text-3xl md:text-5xl font-sans font-extrabold font-case tracking-tighter text-blue">
-          ჩვენი გმირები
-        </h2>
-        <p class="text-blue mt-3 text-3xl mb-20">
+          class="font-gilroy text-blue"
+          style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
           კომპანიები, რომლებიც უკვე ზრუნავენ ცხოველებზე
-        </p>
+        </h2>
       </div>
 
-      <!-- Loading State -->
+      <!-- Loading -->
       <div v-if="isLoading" class="flex justify-center py-10">
         <div
           class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
 
-      <!-- Companies Grid -->
+      <!-- Companies grid -->
       <div
         v-else-if="heroCompanies.length > 0"
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 fade-up" style="transition-delay: 0.15s">
         <NuxtLink
           v-for="company in heroCompanies"
           :key="company.id"
@@ -56,24 +54,27 @@ watch(currentPage, (newPage) => {
             company.detail_page_enabled ? `/stories/company/${company.id}` : '#'
           "
           :class="[
-            'bg-secondary-light rounded-xl p-4 flex items-center justify-center h-24 shadow-sm transition-shadow',
+            'bg-section-alt rounded-2xl p-6 flex items-center justify-center min-h-[80px] border border-gray-200 transition-all duration-200',
             company.detail_page_enabled
-              ? 'hover:shadow-md cursor-pointer'
+              ? 'hover:border-primary hover:shadow-md cursor-pointer'
               : 'cursor-default',
           ]">
           <img
-            :src="company.logo || '/images/placeholder-logo.png'"
+            :src="
+              company.logo ||
+              'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOWNhM2FmIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIiByeT0iMiIvPjxjaXJjbGUgY3g9IjguNSIgY3k9IjguNSIgcj0iMS41Ii8+PHBhdGggZD0iTTIxIDE1bC01LTUtNCA0LTQtNC01IDUiLz48L3N2Zz4='
+            "
             :alt="company.name"
-            class="max-h-12 max-w-full object-contain" />
+            class="max-h-10 max-w-full object-contain" />
         </NuxtLink>
       </div>
 
-      <!-- Empty State -->
+      <!-- Empty state -->
       <div v-else class="text-center py-10">
-        <p class="text-blue text-xl">კომპანიები არ მოიძებნა</p>
+        <p class="text-gray-500 text-lg">კომპანიები არ მოიძებნა</p>
       </div>
 
-      <!-- Pagination -->
+      <!-- Pagination / More link -->
       <UiPagination
         v-if="pagination && paginationData.lastPage > 1"
         v-model:current-page="currentPage"
@@ -83,7 +84,7 @@ watch(currentPage, (newPage) => {
         class="mt-10 text-center">
         <NuxtLink
           to="/stories?search=heroes_companies"
-          class="text-blue text-3xl font-sans font-normal underline tracking-wide font-case">
+          class="btn-outline text-sm">
           მეტის ნახვა
         </NuxtLink>
       </div>

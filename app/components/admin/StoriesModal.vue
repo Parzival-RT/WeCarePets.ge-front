@@ -136,7 +136,7 @@ const handleSubmit = async () => {
     return;
   }
 
-  if (!isEditing.value && !coverImageFile.value) {
+  if (!coverImagePreview.value && !coverImageFile.value) {
     errors.value = ["სურათი სავალდებულოა"];
     return;
   }

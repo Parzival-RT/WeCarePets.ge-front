@@ -154,6 +154,10 @@ const handleDelete = async (id: number) => {
                 ისტორიები
               </th>
               <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                სტატუსი
+              </th>
+              <th
                 class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 მოქმედებები
               </th>
@@ -166,8 +170,12 @@ const handleDelete = async (id: number) => {
               class="hover:bg-gray-50">
               <td class="px-6 py-4 whitespace-nowrap">
                 <img
-                  :src="person.image || '/images/placeholder-avatar.jpg'"
+                  :src="
+                    person.image ||
+                    'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOWNhM2FmIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIiByeT0iMiIvPjxjaXJjbGUgY3g9IjguNSIgY3k9IjguNSIgcj0iMS41Ii8+PHBhdGggZD0iTTIxIDE1bC01LTUtNCA0LTQtNC01IDUiLz48L3N2Zz4='
+                  "
                   :alt="person.name"
+                  ||
                   class="h-12 w-12 rounded-full object-cover" />
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
@@ -186,6 +194,17 @@ const handleDelete = async (id: number) => {
                   {{ person.stories_count || 0 }}
                 </span>
               </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span
+                  :class="[
+                    'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium',
+                    person.status === 'active'
+                      ? 'bg-green-100 text-green-800'
+                      : 'bg-gray-100 text-gray-600',
+                  ]">
+                  {{ person.status === "active" ? "აქტიური" : "არააქტიური" }}
+                </span>
+              </td>
               <td
                 class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                 <button
@@ -201,7 +220,7 @@ const handleDelete = async (id: number) => {
               </td>
             </tr>
             <tr v-if="adminPeople.length === 0">
-              <td colspan="5" class="px-6 py-12 text-center text-gray-500">
+              <td colspan="6" class="px-6 py-12 text-center text-gray-500">
                 ადამიანები არ მოიძებნა
               </td>
             </tr>
