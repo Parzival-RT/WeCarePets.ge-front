@@ -1,5 +1,5 @@
 // API Configuration for Laravel Sanctum SPA Authentication
-const API_BASE_URL = 'http://localhost:8000';
+const getApiBaseUrl = () => useRuntimeConfig().public.apiBaseUrl as string;
 
 type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -28,7 +28,7 @@ interface ApiResponse<T> {
 
 // Get CSRF cookie before authenticated requests
 export const getCsrfCookie = async (): Promise<void> => {
-  await $fetch(`${API_BASE_URL}/sanctum/csrf-cookie`, {
+  await $fetch(`${getApiBaseUrl()}/sanctum/csrf-cookie`, {
     credentials: 'include',
   });
 };
@@ -49,7 +49,7 @@ export const api = async <T>(
   const { params, ...fetchOptions } = options;
 
   // Build URL with query params
-  let url = `${API_BASE_URL}/api${endpoint}`;
+  let url = `${getApiBaseUrl()}/api${endpoint}`;
   if (params) {
     const searchParams = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
