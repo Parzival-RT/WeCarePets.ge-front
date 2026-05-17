@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   ssr: true,
   runtimeConfig: {
     public: {
-      apiBaseUrl: 'http://localhost:8000',
+      apiBaseUrl: "http://localhost:8000",
     },
   },
   compatibilityDate: "2025-07-15",
@@ -24,6 +24,10 @@ export default defineNuxtConfig({
           name: "description",
           content:
             "ჩვენ ერთად ვზრუნავთ ცხოველებზე - დაეხმარე უპატრონო ცხოველებს",
+        },
+        {
+          name: "viewport",
+          content: "width=device-width, initial-scale=1, maximum-scale=1",
         },
       ],
       link: [
