@@ -131,7 +131,7 @@ const handleSubmit = async () => {
           leave-to-class="opacity-0 scale-95">
           <div
             v-if="isOpen"
-            class="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-hidden">
+            class="relative w-full max-w-lg bg-white rounded-2xl shadow-2xl overflow-y-auto max-h-[90vh]">
             <!-- Close Button -->
             <button
               @click="emit('close')"
