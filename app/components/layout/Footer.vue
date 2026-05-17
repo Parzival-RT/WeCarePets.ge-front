@@ -8,12 +8,12 @@ const footerLinks = {
     { label: "ჩვენი შედეგები", href: "#results" },
     { label: "ცხოველების ისტორიები", href: "#stories" },
     { label: "Founders Club – პირველი 30", href: "#founders" },
-    { label: "ჩვენი გმირები (კომპანიები)", href: "#heroes-companies" },
-    { label: "ჩვენი გმირები (ადამიანები)", href: "#heroes-people" },
   ],
   support: [
     { label: "დაეხმარე ცხოველებს", href: "#packages" },
     { label: "გახდი მოხალისე", href: "#volunteer" },
+    { label: "ჩვენი გმირები (კომპანიები)", href: "#heroes-companies" },
+    { label: "ჩვენი გმირები (ადამიანები)", href: "#heroes-people" },
   ],
 };
 
@@ -38,22 +38,12 @@ const scrollToSection = (href: string) => {
   <footer class="bg-blue text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <div class="grid md:grid-cols-3 gap-12">
-        <!-- Footer logo -->
-        <div
-          class="flex items-center md:items-start md:justify-normal flex-col gap-10 mb-4 md:mb-0">
-          <NuxtImg
-            src="/images/footer_logo.svg"
-            alt=""
-            class="max-w-[180px] w-full object-contain opacity-80" />
-          <h3 class="font-gilroy text-white text-xl mt-auto">
+        <!-- Column 1: Main links -->
+        <div class="">
+          <h3 class="font-gilroy text-white text-xl mb-6">
             ერთად<br />
             <span class="text-primary">ცხოველებისთვის</span>
           </h3>
-        </div>
-
-        <!-- Column 1: Main links -->
-        <div class="">
-          <h3 class="font-gilroy text-white text-xl mb-6">ნავიგაცია</h3>
           <ul class="space-y-2.5">
             <li v-for="link in footerLinks.main" :key="link.label">
               <button
@@ -66,7 +56,7 @@ const scrollToSection = (href: string) => {
         </div>
 
         <!-- Column 2: Support -->
-        <!-- <div>
+        <div>
           <h3 class="font-gilroy text-white text-xl mb-6">მხარდაჭერა</h3>
           <ul class="space-y-2.5">
             <li v-for="link in footerLinks.support" :key="link.label">
@@ -77,7 +67,7 @@ const scrollToSection = (href: string) => {
               </button>
             </li>
           </ul>
-        </div> -->
+        </div>
 
         <!-- Column 3: Contact -->
         <div class="">
@@ -97,7 +87,7 @@ const scrollToSection = (href: string) => {
           </div>
 
           <!-- Social links -->
-          <div class="flex gap-2.5 mt-6">
+          <div class="flex gap-2.5 my-6">
             <a
               v-for="social in socialLinks"
               :key="social.name"
@@ -139,6 +129,15 @@ const scrollToSection = (href: string) => {
                   d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
               </svg>
             </a>
+          </div>
+
+          <!-- Footer logo -->
+          <div
+            class="flex items-center md:items-start md:justify-normal flex-col gap-10 mb-4 md:mb-0">
+            <NuxtImg
+              src="/images/footer_logo.svg"
+              alt=""
+              class="max-w-[180px] w-full object-contain opacity-80" />
           </div>
         </div>
       </div>

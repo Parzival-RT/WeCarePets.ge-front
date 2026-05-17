@@ -252,7 +252,7 @@ const handleSubmit = async () => {
                 <!-- Logo Upload -->
                 <div>
                   <label class="block text-sm font-medium text-dark mb-2">
-                    ლოგო
+                    ომპანიის ლოგო
                   </label>
                   <div
                     class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-200 border-dashed rounded-xl hover:border-primary transition-colors">
@@ -284,7 +284,7 @@ const handleSubmit = async () => {
                       <div class="flex text-sm text-gray-600 justify-center">
                         <label
                           class="relative cursor-pointer rounded-md font-medium text-primary hover:text-primary/80">
-                          <span>აირჩიეთ ფაილი</span>
+                          <span>ატვირთეთ კომპანიის ლოგო</span>
                           <input
                             ref="fileInputRef"
                             type="file"

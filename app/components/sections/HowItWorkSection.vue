@@ -47,7 +47,8 @@ const steps = [
             class="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-xl text-primary font-gilroy font-bold text-lg mb-5">
             {{ step.number }}
           </div>
-          <h3 class="font-gilroy text-blue text-lg mb-2.5">
+          <h3
+            class="text-sm font-caps font-semibold text-blue font-case mb-2.5">
             {{ step.title }}
           </h3>
           <p class="text-sm text-gray-500 leading-[1.75]">

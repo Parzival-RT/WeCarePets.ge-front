@@ -89,7 +89,7 @@ const scrollToPackages = () => {
             <NuxtImg
               src="/images/hero_bg.jpg"
               alt="ცხოველი"
-              class="w-full h-full object-cover object-top" />
+              class="w-full h-full object-cover [object-position:70%_20%]" />
           </div>
 
           <!-- Floating stat card -->
