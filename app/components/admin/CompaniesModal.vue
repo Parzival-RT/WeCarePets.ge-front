@@ -11,7 +11,7 @@ const emit = defineEmits<{
 
 const isSubmitting = ref(false);
 const errors = ref<string[]>([]);
-
+const { getImageUrl } = useImageUrl();
 const form = reactive({
   name_ka: "",
   name_en: "",
@@ -312,7 +312,7 @@ const handleSubmit = async () => {
                       <!-- Preview -->
                       <div v-if="logoPreview" class="mb-4">
                         <img
-                          :src="logoPreview"
+                          :src="getImageUrl(logoPreview)"
                           alt="Preview"
                           class="mx-auto h-20 object-contain" />
                         <button
