@@ -1,62 +1,96 @@
 <script setup lang="ts">
 const { isSubmitting, error, submitRegistration } = useRegistration();
+const { getImageUrl } = useImageUrl();
 
 const packageOptions = [
-  { id: 'supporter', name: 'მხარდამჭერი — 300₾/თვეში' },
-  { id: 'friend', name: 'მეგობარი — 800₾/თვეში' },
-  { id: 'partner', name: 'პარტნიორი — 1,500₾/თვეში' },
-  { id: 'cofounder', name: 'თანადამფუძნებელი — 2,500₾/თვეში' },
+  { id: "supporter", name: "მხარდამჭერი — 300₾/თვეში" },
+  { id: "friend", name: "მეგობარი — 800₾/თვეში" },
+  { id: "partner", name: "პარტნიორი — 1,500₾/თვეში" },
+  { id: "cofounder", name: "თანადამფუძნებელი — 2,500₾/თვეში" },
 ];
 
 const form = reactive({
-  company_name: '',
-  contact_person: '',
-  phone: '',
-  package: '' as 'supporter' | 'friend' | 'partner' | 'cofounder' | '',
+  company_name: "",
+  contact_person: "",
+  phone: "",
+  package: "" as "supporter" | "friend" | "partner" | "cofounder" | "",
 });
+
+const logoFile = ref<File | null>(null);
+const logoPreview = ref<string | null>(null);
+const fileInputRef = ref<HTMLInputElement | null>(null);
+
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (file) {
+    if (file.size > 2 * 1024 * 1024) {
+      error.value = "ლოგოს ზომა არ უნდა აღემატებოდეს 2MB-ს.";
+      return;
+    }
+    logoFile.value = file;
+    logoPreview.value = URL.createObjectURL(file);
+  }
+};
+
+const removeFile = () => {
+  logoFile.value = null;
+  logoPreview.value = null;
+  if (fileInputRef.value) fileInputRef.value.value = "";
+};
 
 const isSuccess = ref(false);
 
 const handleSubmit = async () => {
-  if (!form.company_name || !form.contact_person || !form.phone || !form.package) return;
+  if (
+    !form.company_name ||
+    !form.contact_person ||
+    !form.phone ||
+    !form.package
+  )
+    return;
 
   const success = await submitRegistration({
     company_name: form.company_name,
     contact_person: form.contact_person,
     phone: form.phone,
-    package: form.package as 'supporter' | 'friend' | 'partner' | 'cofounder',
+    package: form.package as "supporter" | "friend" | "partner" | "cofounder",
+    logo: logoFile.value,
   });
 
   if (success) {
     isSuccess.value = true;
-    form.company_name = '';
-    form.contact_person = '';
-    form.phone = '';
-    form.package = '';
+    form.company_name = "";
+    form.contact_person = "";
+    form.phone = "";
+    form.package = "";
+    logoFile.value = null;
+    logoPreview.value = null;
   }
 };
 </script>
 
 <template>
-  <section id="contact" class="py-24 bg-section-alt">
+  <section id="contact" class="py-14 bg-section-alt">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
-        <div class="section-label" style="justify-content: center">კონტაქტი</div>
+        <div class="section-label" style="justify-content: center">
+          კონტაქტი
+        </div>
         <h2
           class="font-gilroy text-blue mb-4"
           style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
           დაგვიკავშირდი
         </h2>
-        <p class="text-gray-500 max-w-[600px] mx-auto leading-[1.8]">
-          გაინტერესებს წევრობა? გაქვს შეკითხვა? გვწერე და დაგიკავშირდებით.
-        </p>
       </div>
 
       <!-- Grid -->
-      <div class="grid md:grid-cols-[1fr_1.2fr] gap-12 items-start fade-up" style="transition-delay: 0.15s">
+      <div
+        class="grid md:grid-cols-[1fr_1.2fr] gap-12 items-start fade-up"
+        style="transition-delay: 0.15s">
         <!-- Left: Contact info + socials -->
-        <div>
+        <div class="self-start md:self-center">
           <div class="flex flex-col gap-5">
             <!-- Email -->
             <div class="flex gap-4 items-center">
@@ -68,7 +102,9 @@ const handleSubmit = async () => {
                 </svg>
               </div>
               <div>
-                <strong class="block text-[0.85rem] text-blue font-gilroy">ელ. ფოსტა</strong>
+                <strong class="block text-[0.85rem] text-blue font-gilroy"
+                  >ელ. ფოსტა</strong
+                >
                 <span class="text-[0.9rem] text-gray-500">info@ertad.ge</span>
               </div>
             </div>
@@ -83,14 +119,18 @@ const handleSubmit = async () => {
                 </svg>
               </div>
               <div>
-                <strong class="block text-[0.85rem] text-blue font-gilroy">ტელეფონი</strong>
+                <strong class="block text-[0.85rem] text-blue font-gilroy"
+                  >ტელეფონი</strong
+                >
                 <span class="text-[0.9rem] text-gray-500">598 588 433</span>
               </div>
             </div>
           </div>
 
           <!-- Social heading -->
-          <p class="text-[0.85rem] font-semibold text-gray-400 mt-7 mb-3.5">გამოგვყევი</p>
+          <p class="text-[0.85rem] font-semibold text-gray-400 mt-7 mb-3.5">
+            გამოგვყევი
+          </p>
 
           <!-- Social links -->
           <div class="flex gap-2.5">
@@ -175,11 +215,15 @@ const handleSubmit = async () => {
                   d="M5 13l4 4L19 7" />
               </svg>
             </div>
-            <h3 class="text-xl font-gilroy font-bold text-blue mb-3">მადლობა!</h3>
+            <h3 class="text-xl font-gilroy font-bold text-blue mb-3">
+              მადლობა!
+            </h3>
             <p class="text-gray-500 text-sm">
               თქვენი განაცხადი მიღებულია. ჩვენ მალე დაგიკავშირდებით.
             </p>
-            <button @click="isSuccess = false" class="btn-primary mt-6 text-sm">კარგი</button>
+            <button @click="isSuccess = false" class="btn-primary mt-6 text-sm">
+              კარგი
+            </button>
           </div>
 
           <!-- Form -->
@@ -194,8 +238,9 @@ const handleSubmit = async () => {
             <!-- Row 1: company + contact person -->
             <div class="grid sm:grid-cols-2 gap-4 mb-[18px]">
               <div>
-                <label class="block text-[0.8rem] font-semibold text-blue mb-1.5">
-                  კომპანიის სახელი
+                <label
+                  class="block text-[0.8rem] font-semibold text-blue mb-1.5">
+                  კომპანიის სახელი *
                 </label>
                 <input
                   v-model="form.company_name"
@@ -205,8 +250,9 @@ const handleSubmit = async () => {
                   class="w-full px-4 py-3 bg-cream border border-gray-200 rounded-xl text-[0.9rem] text-blue placeholder-gray-400 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/10" />
               </div>
               <div>
-                <label class="block text-[0.8rem] font-semibold text-blue mb-1.5">
-                  საკონტაქტო პირი
+                <label
+                  class="block text-[0.8rem] font-semibold text-blue mb-1.5">
+                  საკონტაქტო პირი *
                 </label>
                 <input
                   v-model="form.contact_person"
@@ -220,8 +266,9 @@ const handleSubmit = async () => {
             <!-- Row 2: phone + package -->
             <div class="grid sm:grid-cols-2 gap-4 mb-[18px]">
               <div>
-                <label class="block text-[0.8rem] font-semibold text-blue mb-1.5">
-                  ტელეფონი
+                <label
+                  class="block text-[0.8rem] font-semibold text-blue mb-1.5">
+                  ტელეფონი *
                 </label>
                 <input
                   v-model="form.phone"
@@ -231,18 +278,75 @@ const handleSubmit = async () => {
                   class="w-full px-4 py-3 bg-cream border border-gray-200 rounded-xl text-[0.9rem] text-blue placeholder-gray-400 outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/10" />
               </div>
               <div>
-                <label class="block text-[0.8rem] font-semibold text-blue mb-1.5">
-                  რომელი პაკეტი გაინტერესებთ?
+                <label
+                  class="block text-[0.8rem] font-semibold text-blue mb-1.5">
+                  რომელი პაკეტი გაინტერესებთ? *
                 </label>
                 <select
                   v-model="form.package"
                   required
                   class="w-full px-4 py-3 bg-cream border border-gray-200 rounded-xl text-[0.9rem] text-blue outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary/10 appearance-none cursor-pointer">
                   <option value="" disabled>აირჩიეთ პაკეტი</option>
-                  <option v-for="pkg in packageOptions" :key="pkg.id" :value="pkg.id">
+                  <option
+                    v-for="pkg in packageOptions"
+                    :key="pkg.id"
+                    :value="pkg.id">
                     {{ pkg.name }}
                   </option>
                 </select>
+              </div>
+            </div>
+
+            <!-- Row 3: Logo Upload -->
+            <div class="mb-[18px]">
+              <label class="block text-sm font-medium text-gray-700 mb-1">
+                ლოგო
+              </label>
+              <div
+                class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-primary transition-colors">
+                <div class="space-y-1 text-center">
+                  <!-- Preview -->
+                  <div v-if="logoPreview" class="mb-4">
+                    <img
+                      :src="getImageUrl(logoPreview)"
+                      alt="Preview"
+                      class="mx-auto h-20 object-contain" />
+                    <button
+                      type="button"
+                      @click="removeFile"
+                      class="mt-2 text-sm text-red-600 hover:text-red-800">
+                      წაშლა
+                    </button>
+                  </div>
+
+                  <!-- Upload Icon -->
+                  <svg
+                    v-else
+                    class="mx-auto h-12 w-12 text-gray-400"
+                    stroke="currentColor"
+                    fill="none"
+                    viewBox="0 0 48 48">
+                    <path
+                      d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+
+                  <div class="flex text-sm text-gray-600 justify-center">
+                    <label
+                      class="relative cursor-pointer rounded-md font-medium text-primary hover:text-primary/80">
+                      <span>აირჩიეთ ფაილი</span>
+                      <input
+                        ref="fileInputRef"
+                        type="file"
+                        class="sr-only"
+                        accept="image/*"
+                        @change="handleFileChange" />
+                    </label>
+                  </div>
+                  <p class="text-xs text-gray-500">PNG, JPG 2MB-მდე</p>
+                </div>
               </div>
             </div>
 
@@ -268,7 +372,7 @@ const handleSubmit = async () => {
                   fill="currentColor"
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
-              <span>{{ isSubmitting ? 'იგზავნება...' : 'გაგზავნა' }}</span>
+              <span>{{ isSubmitting ? "იგზავნება..." : "გაგზავნა" }}</span>
             </button>
           </form>
         </div>

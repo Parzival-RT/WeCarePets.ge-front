@@ -152,6 +152,10 @@ const handleDelete = async (id: number) => {
               </th>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                გაიღო (₾)
+              </th>
+              <th
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 ისტორიები
               </th>
               <th
@@ -191,6 +195,18 @@ const handleDelete = async (id: number) => {
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm font-medium text-gray-900">
+                  {{
+                    person.registered_donation != null &&
+                    person.registered_donation !== ""
+                      ? Number(person.registered_donation).toLocaleString(
+                          "ka-GE",
+                        ) + " ₾"
+                      : "-"
+                  }}
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
                 <span
                   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                   {{ person.stories_count || 0 }}
@@ -222,7 +238,7 @@ const handleDelete = async (id: number) => {
               </td>
             </tr>
             <tr v-if="adminPeople.length === 0">
-              <td colspan="6" class="px-6 py-12 text-center text-gray-500">
+              <td colspan="7" class="px-6 py-12 text-center text-gray-500">
                 ადამიანები არ მოიძებნა
               </td>
             </tr>

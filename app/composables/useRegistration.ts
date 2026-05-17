@@ -5,6 +5,7 @@ interface RegistrationData {
   contact_person: string;
   phone: string;
   package: 'supporter' | 'friend' | 'partner' | 'cofounder';
+  logo?: File | null;
 }
 
 interface RegistrationResponse {
@@ -21,7 +22,16 @@ export const useRegistration = () => {
     error.value = null;
 
     try {
-      const response = await apiPost<RegistrationResponse>('/register-interest', data);
+      const formData = new FormData();
+      formData.append('company_name', data.company_name);
+      formData.append('contact_person', data.contact_person);
+      formData.append('phone', data.phone);
+      formData.append('package', data.package);
+      if (data.logo) {
+        formData.append('logo', data.logo);
+      }
+
+      const response = await apiPost<RegistrationResponse>('/register-interest', formData);
       return response.success;
     } catch (err: any) {
       console.error('Error submitting registration:', err);

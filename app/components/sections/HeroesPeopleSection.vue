@@ -23,7 +23,7 @@ watch(currentPage, (newPage) => {
 </script>
 
 <template>
-  <section id="heroes-people" class="py-24 bg-section-alt">
+  <section id="heroes-people" class="py-14 bg-section-alt">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
@@ -34,7 +34,7 @@ watch(currentPage, (newPage) => {
           v-if="!pagination"
           class="font-gilroy text-blue"
           style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
-          ადამიანები, რომლებიც უკვე ზრუნავენ ცხოველებზე
+          ადამიანები, რომლებიც ზრუნავენ ცხოველებზე
         </h2>
       </div>
 

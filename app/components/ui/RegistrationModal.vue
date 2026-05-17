@@ -10,6 +10,7 @@ const emit = defineEmits<{
 }>();
 
 const { isSubmitting, error, submitRegistration } = useRegistration();
+const { getImageUrl } = useImageUrl();
 
 const packageOptions = [
   { id: "supporter", name: "მხარდამჭერი (300₾/თვე)" },
@@ -26,6 +27,29 @@ const form = reactive({
     props.selectedPackage ||
     ("" as "supporter" | "friend" | "partner" | "cofounder" | ""),
 });
+
+const logoFile = ref<File | null>(null);
+const logoPreview = ref<string | null>(null);
+const fileInputRef = ref<HTMLInputElement | null>(null);
+
+const handleFileChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const file = target.files?.[0];
+  if (file) {
+    if (file.size > 2 * 1024 * 1024) {
+      error.value = "ლოგოს ზომა არ უნდა აღემატებოდეს 2MB-ს.";
+      return;
+    }
+    logoFile.value = file;
+    logoPreview.value = URL.createObjectURL(file);
+  }
+};
+
+const removeFile = () => {
+  logoFile.value = null;
+  logoPreview.value = null;
+  if (fileInputRef.value) fileInputRef.value.value = "";
+};
 
 const isSuccess = ref(false);
 
@@ -44,6 +68,8 @@ watch(
     if (isOpen) {
       isSuccess.value = false;
       error.value = null;
+      logoFile.value = null;
+      logoPreview.value = null;
     }
   },
 );
@@ -63,6 +89,7 @@ const handleSubmit = async () => {
     contact_person: form.contact_person,
     phone: form.phone,
     package: form.package as "supporter" | "friend" | "partner" | "cofounder",
+    logo: logoFile.value,
   });
 
   if (success) {
@@ -75,6 +102,8 @@ const handleSubmit = async () => {
       form.contact_person = "";
       form.phone = "";
       form.package = "";
+      logoFile.value = null;
+      logoPreview.value = null;
     }, 500);
   }
 };
@@ -218,6 +247,55 @@ const handleSubmit = async () => {
                       {{ pkg.name }}
                     </option>
                   </select>
+                </div>
+
+                <!-- Logo Upload -->
+                <div>
+                  <label class="block text-sm font-medium text-dark mb-2">
+                    ლოგო
+                  </label>
+                  <div
+                    class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-200 border-dashed rounded-xl hover:border-primary transition-colors">
+                    <div class="space-y-1 text-center">
+                      <div v-if="logoPreview" class="mb-4">
+                        <img
+                          :src="getImageUrl(logoPreview)"
+                          alt="Preview"
+                          class="mx-auto h-20 object-contain" />
+                        <button
+                          type="button"
+                          @click="removeFile"
+                          class="mt-2 text-sm text-red-600 hover:text-red-800">
+                          წაშლა
+                        </button>
+                      </div>
+                      <svg
+                        v-else
+                        class="mx-auto h-12 w-12 text-gray-400"
+                        stroke="currentColor"
+                        fill="none"
+                        viewBox="0 0 48 48">
+                        <path
+                          d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                      <div class="flex text-sm text-gray-600 justify-center">
+                        <label
+                          class="relative cursor-pointer rounded-md font-medium text-primary hover:text-primary/80">
+                          <span>აირჩიეთ ფაილი</span>
+                          <input
+                            ref="fileInputRef"
+                            type="file"
+                            class="sr-only"
+                            accept="image/*"
+                            @change="handleFileChange" />
+                        </label>
+                      </div>
+                      <p class="text-xs text-gray-500">PNG, JPG 2MB-მდე</p>
+                    </div>
+                  </div>
                 </div>
 
                 <!-- Submit Button -->

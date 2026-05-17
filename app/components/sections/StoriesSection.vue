@@ -46,6 +46,7 @@ const isModalOpen = ref(false);
 const selectedStory = ref<{
   id: number;
   name: string;
+  description: string | null;
   cover_image: string | null;
   video_url: string | null;
 } | null>(null);
@@ -53,6 +54,7 @@ const selectedStory = ref<{
 const openModal = (story: {
   id: number;
   name: string;
+  description: string | null;
   cover_image: string | null;
   video_url: string | null;
 }) => {
@@ -81,7 +83,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="stories" class="py-24 bg-section-alt">
+  <section id="stories" class="py-14 bg-section-alt">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
@@ -94,12 +96,12 @@ onMounted(() => {
           style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
           ცხოველების ისტორიები
         </h2>
-        <p
+        <!-- <p
           v-if="!heroType"
           class="text-gray-500 max-w-md mx-auto leading-[1.8]">
           თითოეულ ისტორიაში არის ერთობა<br />
           თითოეულ თვალში — მადლობა.
-        </p>
+        </p> -->
         <p v-else class="text-gray-500 max-w-md mx-auto leading-[1.8]">
           {{ headerDesc }}
         </p>
@@ -195,12 +197,13 @@ onMounted(() => {
           class="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4">
           <div
             @click.stop
-            class="relative w-full max-w-5xl bg-white rounded-2xl overflow-hidden shadow-2xl">
+            class="relative w-full max-w-5xl bg-white rounded-2xl overflow-hidden shadow-2xl flex flex-col lg:flex-row max-h-[90vh]">
+            <!-- Close button -->
             <button
               @click="closeModal"
-              class="absolute top-4 right-4 z-10 text-white hover:text-primary transition-colors bg-black/50 rounded-full p-2 hover:bg-black/70">
+              class="absolute top-3 right-3 z-20 text-white hover:text-primary transition-colors bg-black/50 rounded-full p-2 hover:bg-black/70">
               <svg
-                class="w-6 h-6"
+                class="w-5 h-5"
                 fill="none"
                 stroke="currentColor"
                 stroke-width="2"
@@ -211,25 +214,34 @@ onMounted(() => {
                   d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <div
-              class="absolute top-4 left-4 z-10 bg-primary text-blue px-4 py-2 rounded-full font-gilroy font-extrabold text-lg">
-              {{ selectedStory?.name }}
+
+            <!-- Video -->
+            <div class="lg:w-[62%] flex-shrink-0 bg-black">
+              <div class="aspect-video w-full">
+                <iframe
+                  v-if="selectedStory"
+                  :src="selectedStory.video_url || ''"
+                  class="w-full h-full"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+              </div>
             </div>
-            <div class="relative w-full" style="padding-bottom: 56.25%">
-              <iframe
-                v-if="selectedStory"
-                :src="selectedStory.video_url || ''"
-                class="absolute inset-0 w-full h-full"
-                frameborder="0"
-                allow="
-                  accelerometer;
-                  autoplay;
-                  clipboard-write;
-                  encrypted-media;
-                  gyroscope;
-                  picture-in-picture;
-                "
-                allowfullscreen></iframe>
+
+            <!-- Info panel -->
+            <div class="lg:w-[38%] flex flex-col p-6 overflow-y-auto bg-white">
+              <span
+                class="self-start bg-primary text-blue px-4 py-1.5 rounded-full font-gilroy font-extrabold text-base mb-4">
+                {{ selectedStory?.name }}
+              </span>
+              <p
+                v-if="selectedStory?.description"
+                class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">
+                {{ selectedStory?.description }}
+              </p>
+              <p v-else class="text-gray-400 text-sm italic">
+                აღწერა არ არის
+              </p>
             </div>
           </div>
         </div>

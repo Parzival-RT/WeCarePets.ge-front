@@ -5,7 +5,7 @@ const emit = defineEmits<{
 </script>
 
 <template>
-  <section class="py-[100px] bg-cream">
+  <section class="py-14 bg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div
         class="rounded-3xl py-[40px] px-[28px] md:p-16 grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-center relative overflow-hidden fade-up"

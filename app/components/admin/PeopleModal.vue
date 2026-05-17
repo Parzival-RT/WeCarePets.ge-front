@@ -16,6 +16,7 @@ const form = reactive({
   name_ka: "",
   name_en: "",
   surname_ka: "",
+  registered_donation: "" as string | number,
   status: "active",
 });
 
@@ -56,6 +57,7 @@ watch(
         form.name_ka = props.person.name || "";
         form.name_en = props.person.name_en || "";
         form.surname_ka = props.person.surname || "";
+        form.registered_donation = props.person.registered_donation || "";
         form.status = props.person.status || "active";
 
         // Set existing image preview
@@ -66,6 +68,7 @@ watch(
         form.name_ka = "";
         form.name_en = "";
         form.surname_ka = "";
+        form.registered_donation = "";
         form.status = "active";
         imageFile.value = null;
         imagePreview.value = null;
@@ -93,6 +96,10 @@ const handleSubmit = async () => {
 
   if (form.surname_ka) {
     formData.append("surname_ka", form.surname_ka);
+  }
+
+  if (form.registered_donation !== "" && form.registered_donation !== null) {
+    formData.append("registered_donation", form.registered_donation.toString());
   }
 
   if (imageFile.value) {
@@ -222,6 +229,20 @@ const handleSubmit = async () => {
                     type="text"
                     placeholder="გვარი"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+                </div>
+
+                <!-- Registered Donation -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    გაიღო (₾)
+                  </label>
+                  <input
+                    v-model="form.registered_donation"
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                    placeholder="მაგ: 150" />
                 </div>
 
                 <!-- Status Toggle -->

@@ -13,7 +13,7 @@ const remainingSpots = computed(() => {
 </script>
 
 <template>
-  <section id="founders" class="py-20 bg-blue relative overflow-hidden">
+  <section id="founders" class="py-14 bg-blue relative overflow-hidden">
     <!-- Subtle pattern overlay -->
     <div
       class="absolute inset-0 opacity-5 pointer-events-none"
@@ -47,25 +47,6 @@ const remainingSpots = computed(() => {
             მათი სახელები სამუდამოდ დარჩება როგორც იმ ადამიანებისა და
             კომპანიების, ვინც პირველი თქვა: „ჩვენ ერთად ვზრუნავთ ცხოველებზე."
           </blockquote>
-
-          <!-- Founders logos (if any) -->
-          <div v-if="!isLoading && founders.length > 0" class="mt-8">
-            <div class="grid grid-cols-3 gap-3">
-              <div
-                v-for="founder in founders"
-                :key="founder.id"
-                class="bg-white/10 rounded-xl p-3 flex items-center justify-center h-16 hover:bg-white/20 transition-colors">
-                <img
-                  :src="
-                    founder.logo
-                      ? getImageUrl(founder.logo)
-                      : '/images/placeholder-logo.png'
-                  "
-                  :alt="founder.name"
-                  class="max-h-8 max-w-full object-contain opacity-80" />
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Right: Big number -->
@@ -82,6 +63,29 @@ const remainingSpots = computed(() => {
               ადგილი დარჩა
             </span>
           </div>
+        </div>
+      </div>
+      <!-- Founders logos (if any) -->
+      <div v-if="!isLoading && founders.length > 0" class="mt-8">
+        <div class="grid grid-cols-6 gap-3">
+          <NuxtLink
+            v-for="founder in founders"
+            :key="founder.id"
+            :to="
+              founder.detail_page_enabled
+                ? `/stories/company/${founder.id}`
+                : '#'
+            "
+            class="bg-white/10 rounded-xl p-3 flex items-center justify-center h-16 hover:bg-white/20 transition-colors">
+            <img
+              :src="
+                founder.logo
+                  ? getImageUrl(founder.logo)
+                  : 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOWNhM2FmIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cmVjdCB4PSIzIiB5PSIzIiB3aWR0aD0iMTgiIGhlaWdodD0iMTgiIHJ4PSIyIiByeT0iMiIvPjxjaXJjbGUgY3g9IjguNSIgY3k9IjguNSIgcj0iMS41Ii8+PHBhdGggZD0iTTIxIDE1bC01LTUtNCA0LTQtNC01IDUiLz48L3N2Zz4='
+              "
+              :alt="founder.name"
+              class="max-h-8 max-w-full object-contain opacity-80" />
+          </NuxtLink>
         </div>
       </div>
     </div>

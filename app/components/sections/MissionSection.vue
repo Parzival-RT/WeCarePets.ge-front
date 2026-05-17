@@ -1,17 +1,17 @@
 <script setup lang="ts">
 const values = [
+  // {
+  //   num: "1",
+  //   title: "გამჭვირვალობა",
+  //   desc: "ყოველი ლარის გზა ჩანს — საიტზე ხილულია ყველა ხარჯი და შედეგი.",
+  // },
   {
     num: "1",
-    title: "გამჭვირვალობა",
-    desc: "ყოველი ლარის გზა ჩანს — საიტზე ხილულია ყველა ხარჯი და შედეგი.",
-  },
-  {
-    num: "2",
     title: "ერთობა",
     desc: "არა ერთი დიდი დონორი, არამედ ბევრი ადამიანისა და კომპანიის ერთობლივი ძალა.",
   },
   {
-    num: "3",
+    num: "2",
     title: "ანგარიშვალდებულება",
     desc: "ყოველთვიური ანგარიშები, ვიდეო-მონიტორინგი, დოკუმენტირებული შედეგები.",
   },
@@ -19,25 +19,35 @@ const values = [
 </script>
 
 <template>
-  <section class="py-24 bg-cream">
+  <section class="py-14 bg-cream">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section header centered -->
+      <div class="text-center mb-12 fade-up">
+        <div class="section-label" style="justify-content: center">
+          ჩვენი ერთობის ძალა
+        </div>
+        <h2
+          class="font-gilroy text-blue"
+          style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
+          რატომ ვაკეთებთ ამას
+        </h2>
+      </div>
       <div class="grid lg:grid-cols-2 gap-16 items-start">
         <!-- Left: Text content -->
         <div class="fade-up">
-          <div class="section-label">ჩვენი ერთობის ძალა</div>
+          <!-- <div class="section-label">ჩვენი ერთობის ძალა</div>
           <h2
             class="font-gilroy text-blue mb-5"
             style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
             რატომ ვაკეთებთ ამას
-          </h2>
+          </h2> -->
 
           <div class="space-y-4 text-gray-500 leading-[1.9]">
             <p>ისინი ვერ გვეუბნებიან „მადლობას".</p>
             <p>
               მაგრამ ჩვენ ვხედავთ — როცა ვაჭმევთ მათ, როცა მკურნალობენ, როცა
               თავშესაფარში პირველად იძინებენ სითბოში. ეს მოძრაობა შეიქმნა
-              იმისთვის, რომ ყველა ქართველს და ქართულ კომპანიას ჰქონდეს გზა,
-              აჩვენოს რომ ზრუნავს.
+              იმისთვის, რომ ყველა ადამიანს ჰქონდეს გზა.
             </p>
             <p class="font-semibold text-blue">
               ეს მხოლოდ საქველმოქმედო პროექტი არაა — ეს ერთობის ძალაა.
@@ -74,9 +84,11 @@ const values = [
         </div>
 
         <!-- Right: Image -->
-        <div class="rounded-3xl overflow-hidden shadow-lg aspect-square fade-up" style="transition-delay: 0.2s">
+        <div
+          class="rounded-3xl overflow-hidden shadow-lg aspect-square fade-up"
+          style="transition-delay: 0.2s">
           <NuxtImg
-            src="/images/how_it_works.jpg"
+            src="/images/cat.jpeg"
             alt="ცხოველი"
             class="w-full h-full object-cover" />
         </div>

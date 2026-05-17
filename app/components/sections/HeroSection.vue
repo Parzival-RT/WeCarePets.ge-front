@@ -51,7 +51,7 @@ const scrollToPackages = () => {
         );
       "></div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 w-full">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
         <!-- Left: Content -->
         <div class="order-2 lg:order-1">
@@ -84,7 +84,7 @@ const scrollToPackages = () => {
         <!-- Right: Image + floating stat -->
         <div class="relative flex justify-center order-1 lg:order-2">
           <div
-            class="relative w-full max-w-[500px] rounded-3xl overflow-hidden shadow-2xl"
+            class="relative w-full max-w-[600px] max-h-[600px] rounded-3xl overflow-hidden shadow-2xl"
             style="aspect-ratio: 4/5">
             <NuxtImg
               src="/images/hero_bg.jpg"

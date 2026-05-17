@@ -16,13 +16,13 @@ const steps = [
     number: "03",
     title: "გახდი მათი გადარჩენის ისტორიის ნაწილი",
     description:
-      "ჩვენ გვჯერა გულწრფელობის. საიტზე ნებისმიერ დროს ნახავ, როგორ იქცა შენი დონაცია კონკრეტული ცხოველის საკვებად და წამლად. შენი წვლილი ხილულია.",
+      "საიტზე ნებისმიერ დროს ნახავ, როგორ იქცა შენი დონაცია კონკრეტული ცხოველის საკვებად ან წამლად. შენი წვლილი ხილულია.",
   },
 ];
 </script>
 
 <template>
-  <section id="how-it-works" class="py-24 bg-section-alt">
+  <section id="how-it-works" class="py-14 bg-section-alt">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header centered -->
       <div class="text-center mb-12 fade-up">
@@ -35,7 +35,9 @@ const steps = [
       </div>
 
       <!-- 3-column card grid -->
-      <div class="grid md:grid-cols-3 gap-8 mt-12 fade-up" style="transition-delay: 0.15s">
+      <div
+        class="grid md:grid-cols-3 gap-8 mt-12 fade-up"
+        style="transition-delay: 0.15s">
         <div
           v-for="step in steps"
           :key="step.number"
