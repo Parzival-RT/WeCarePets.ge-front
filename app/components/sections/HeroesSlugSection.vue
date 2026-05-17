@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const route = useRoute();
+const { getImageUrl } = useImageUrl();
+
 const slug = route.params.slug as string[] | undefined;
 const [type, id] = slug || [];
 
@@ -26,9 +28,9 @@ const withPossessive = (name: string) => {
 onMounted(async () => {
   isLoading.value = true;
 
-  if (type === 'company' && id) {
+  if (type === "company" && id) {
     await fetchCompany(Number(id));
-  } else if (type === 'person' && id) {
+  } else if (type === "person" && id) {
     await fetchPerson(Number(id));
   }
 
@@ -61,13 +63,16 @@ const storiesCount = computed(() => {
 <template>
   <!-- Loading State -->
   <div v-if="isLoading" class="flex justify-center py-40">
-    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+    <div
+      class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
   </div>
 
   <!-- Not Found State -->
   <div v-else-if="!currentCompany && !currentPerson" class="text-center py-40">
     <h2 class="text-3xl font-bold text-blue">გვერდი ვერ მოიძებნა</h2>
-    <NuxtLink to="/" class="text-primary underline mt-4 inline-block">მთავარ გვერდზე დაბრუნება</NuxtLink>
+    <NuxtLink to="/" class="text-primary underline mt-4 inline-block"
+      >მთავარ გვერდზე დაბრუნება</NuxtLink
+    >
   </div>
 
   <template v-else>
@@ -78,12 +83,20 @@ const storiesCount = computed(() => {
           <div class="overflow-hidden md:border-e md:pe-20 mb-20 md:mb-0">
             <NuxtImg
               v-if="currentPerson"
-              :src="currentPerson.image || '/images/placeholder-avatar.jpg'"
+              :src="
+                currentPerson.image
+                  ? getImageUrl(currentPerson.image)
+                  : '/images/placeholder-avatar.jpg'
+              "
               alt="ადამიანი"
               class="w-full max-h-[450px] object-cover rounded-[3rem]" />
             <NuxtImg
               v-if="currentCompany"
-              :src="currentCompany.logo || '/images/placeholder-logo.png'"
+              :src="
+                currentCompany.logo
+                  ? getImageUrl(currentCompany.logo)
+                  : '/images/placeholder-logo.png'
+              "
               alt="კომპანია"
               class="w-full max-h-[100px] object-contain mb-5" />
             <p v-if="currentCompany" v-html="currentCompany.description"></p>

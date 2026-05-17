@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { founders, isLoading, fetchFounders } = useCompanies();
+const { getImageUrl } = useImageUrl();
 
 onMounted(() => {
   fetchFounders();
@@ -48,23 +49,29 @@ const remainingSpots = computed(() => {
           </blockquote>
 
           <!-- Founders logos (if any) -->
-          <!-- <div v-if="!isLoading && founders.length > 0" class="mt-8">
+          <div v-if="!isLoading && founders.length > 0" class="mt-8">
             <div class="grid grid-cols-3 gap-3">
               <div
                 v-for="founder in founders"
                 :key="founder.id"
                 class="bg-white/10 rounded-xl p-3 flex items-center justify-center h-16 hover:bg-white/20 transition-colors">
                 <img
-                  :src="founder.logo || '/images/placeholder-logo.png'"
+                  :src="
+                    founder.logo
+                      ? getImageUrl(founder.logo)
+                      : '/images/placeholder-logo.png'
+                  "
                   :alt="founder.name"
                   class="max-h-8 max-w-full object-contain opacity-80" />
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
 
         <!-- Right: Big number -->
-        <div class="flex items-center justify-center fade-up" style="transition-delay: 0.2s">
+        <div
+          class="flex items-center justify-center fade-up"
+          style="transition-delay: 0.2s">
           <div class="text-center">
             <span
               class="block font-gilroy text-primary leading-none"

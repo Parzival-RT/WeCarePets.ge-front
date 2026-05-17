@@ -5,6 +5,7 @@ definePageMeta({
 });
 
 const route = useRoute();
+const { getImageUrl } = useImageUrl();
 
 // Admin companies state
 const companies = ref<any[]>([]);
@@ -254,7 +255,7 @@ const getGroupText = (group: string) => {
               <td class="px-6 py-4 whitespace-nowrap">
                 <img
                   v-if="company.logo"
-                  :src="company.logo"
+                  :src="getImageUrl(company.logo)"
                   :alt="company.name"
                   class="h-10 w-20 object-contain rounded" />
 

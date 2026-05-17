@@ -11,6 +11,7 @@ const {
 } = usePeople();
 
 const currentPage = ref(1);
+const { getImageUrl } = useImageUrl();
 
 onMounted(() => {
   fetchPeople(currentPage.value);
@@ -26,7 +27,9 @@ watch(currentPage, (newPage) => {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
-        <div class="section-label" style="justify-content: center">ჩვენი გმირები</div>
+        <div class="section-label" style="justify-content: center">
+          ჩვენი გმირები
+        </div>
         <h2
           v-if="!pagination"
           class="font-gilroy text-blue"
@@ -37,13 +40,15 @@ watch(currentPage, (newPage) => {
 
       <!-- Loading -->
       <div v-if="isLoading" class="flex justify-center py-10">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
 
       <!-- People grid -->
       <div
         v-else-if="people.length > 0"
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 fade-up" style="transition-delay: 0.15s">
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 fade-up"
+        style="transition-delay: 0.15s">
         <NuxtLink
           v-for="person in people"
           :key="person.id"
@@ -53,7 +58,11 @@ watch(currentPage, (newPage) => {
           <div
             class="w-20 h-20 mx-auto rounded-full overflow-hidden bg-gray-200 mb-3">
             <img
-              :src="person.image || '/images/placeholder-avatar.svg'"
+              :src="
+                person.image
+                  ? getImageUrl(person.image)
+                  : '/images/placeholder-avatar.svg'
+              "
               :alt="person.full_name"
               class="w-full h-full object-cover" />
           </div>
