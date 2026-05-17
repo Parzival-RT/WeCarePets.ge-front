@@ -15,6 +15,32 @@ const {
 
 const currentPage = ref(1);
 
+const config = useRuntimeConfig();
+
+// ეს ფუნქცია ავტომატურად დასვამს სწორ Base URL-ს ფრონტის გარემოს მიხედვით
+const getImageUrl = (fullUrl: string) => {
+  if (!fullUrl) return "/images/placeholder.jpg";
+
+  // 1. თუ ბექიდან მოსულ ლინკში უკვე წერია localhost, პირდაპირ ის დავაბრუნოთ
+  if (fullUrl.includes("localhost") || fullUrl.includes("127.0.0.1")) {
+    return fullUrl;
+  }
+
+  // 2. ამოვჭრათ მხოლოდ სთორიჯის გზა (მაგ: storage/stories/photo.png)
+  const storagePath = fullUrl.replace(/^https?:\/\/[^\/]+\//, "");
+
+  // 3. ავიღოთ ბაზის მისამართი ცვლადიდან, თუ არადა მივცეთ ვერსელის პროქსი დეფოლტად
+  const baseUrl = String(config.public?.apiBase || "/api-backend");
+
+  // 4. თუ მაინც რაღაც მიზეზით baseUrl ცარიელი ან undefined აღმოჩნდა (მაგ. ლოკალზე)
+  // პირდაპირ ბექენდის რეალური IP დავსვათ, რომ ლოკალზე სერვერის სურათიაც წამოიღოს
+  if (baseUrl.includes("undefined") || !baseUrl) {
+    return `http://104.248.22.83:8080/${storagePath}`;
+  }
+
+  return `${baseUrl}/${storagePath}`;
+};
+
 const loadStories = async () => {
   const params: any = { page: currentPage.value, authCheck: false };
   if (props.heroType && props.heroId) {
@@ -105,13 +131,15 @@ onMounted(() => {
 
       <!-- Loading -->
       <div v-if="isLoading" class="flex justify-center py-20">
-        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
 
       <!-- Stories grid -->
       <div
         v-else-if="stories.length > 0"
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 fade-up" style="transition-delay: 0.15s">
+        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 fade-up"
+        style="transition-delay: 0.15s">
         <div
           v-for="story in stories"
           :key="story.id"
@@ -120,7 +148,11 @@ onMounted(() => {
           <!-- Image -->
           <div class="aspect-square overflow-hidden">
             <img
-              :src="story.cover_image || '/images/placeholder.jpg'"
+              :src="
+                story.cover_image
+                  ? getImageUrl(story.cover_image)
+                  : '/images/placeholder.jpg'
+              "
               :alt="story.name"
               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
           </div>
@@ -128,7 +160,9 @@ onMounted(() => {
           <!-- Bottom overlay -->
           <div
             class="absolute bottom-0 left-0 right-0 p-4"
-            style="background: linear-gradient(transparent, rgba(0,0,0,0.75))">
+            style="
+              background: linear-gradient(transparent, rgba(0, 0, 0, 0.75));
+            ">
             <div class="flex items-end justify-between">
               <span class="font-gilroy text-white text-base">
                 {{ story.name }}
@@ -137,7 +171,10 @@ onMounted(() => {
                 v-if="story.video_url"
                 @click.stop="openModal(story)"
                 class="text-xs font-semibold text-white flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/30 hover:bg-primary hover:border-primary transition-all duration-200"
-                style="background: rgba(255,255,255,0.15); backdrop-filter: blur(8px)">
+                style="
+                  background: rgba(255, 255, 255, 0.15);
+                  backdrop-filter: blur(8px);
+                ">
                 <svg class="w-3 h-3" fill="white" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
@@ -161,9 +198,7 @@ onMounted(() => {
       <div
         v-else-if="!pagination && stories.length > 0"
         class="mt-10 text-center">
-        <NuxtLink
-          to="/stories?search=pets"
-          class="btn-outline text-sm">
+        <NuxtLink to="/stories?search=pets" class="btn-outline text-sm">
           მეტის ნახვა
         </NuxtLink>
       </div>
@@ -188,8 +223,16 @@ onMounted(() => {
             <button
               @click="closeModal"
               class="absolute top-4 right-4 z-10 text-white hover:text-primary transition-colors bg-black/50 rounded-full p-2 hover:bg-black/70">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
             <div
@@ -202,7 +245,14 @@ onMounted(() => {
                 :src="selectedStory.video_url || ''"
                 class="absolute inset-0 w-full h-full"
                 frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
                 allowfullscreen></iframe>
             </div>
           </div>
