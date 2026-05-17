@@ -252,7 +252,7 @@ const handleSubmit = async () => {
                 <!-- Logo Upload -->
                 <div>
                   <label class="block text-sm font-medium text-dark mb-2">
-                    ომპანიის ლოგო
+                    კომპანიის ლოგო
                   </label>
                   <div
                     class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-200 border-dashed rounded-xl hover:border-primary transition-colors">

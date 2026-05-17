@@ -1,5 +1,11 @@
 <script setup lang="ts">
 const route = useRoute();
+const { founders } = useCompanies();
+
+const remainingSpots = computed(() => {
+  if (!founders.value) return 30;
+  return Math.max(0, 30 - founders.value.length);
+});
 
 const heroBackground = computed(() => {
   switch (route.query.search) {
@@ -107,7 +113,7 @@ const scrollToPackages = () => {
             </div>
             <div>
               <strong class="block text-base text-blue font-gilroy"
-                >30 ადგილი</strong
+                >{{ remainingSpots }} ადგილი</strong
               >
               <span class="text-xs text-gray-400">Founders Club-ში</span>
             </div>
