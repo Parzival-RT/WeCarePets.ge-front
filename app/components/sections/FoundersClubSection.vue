@@ -67,7 +67,7 @@ const remainingSpots = computed(() => {
       </div>
       <!-- Founders logos (if any) -->
       <div v-if="!isLoading && founders.length > 0" class="mt-8">
-        <div class="grid grid-cols-6 gap-3">
+        <div class="grid grid-cols-3 md:grid-cols-6 gap-3">
           <NuxtLink
             v-for="founder in founders"
             :key="founder.id"

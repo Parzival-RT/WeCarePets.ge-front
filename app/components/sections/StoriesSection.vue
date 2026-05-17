@@ -116,7 +116,7 @@ onMounted(() => {
       <!-- Stories grid -->
       <div
         v-else-if="stories.length > 0"
-        class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 fade-up"
+        class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-5 fade-up"
         style="transition-delay: 0.15s">
         <div
           v-for="story in stories"
@@ -223,7 +223,14 @@ onMounted(() => {
                   :src="selectedStory.video_url || ''"
                   class="w-full h-full"
                   frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                  "
                   allowfullscreen></iframe>
               </div>
             </div>
@@ -239,9 +246,7 @@ onMounted(() => {
                 class="text-gray-600 leading-relaxed text-sm whitespace-pre-line">
                 {{ selectedStory?.description }}
               </p>
-              <p v-else class="text-gray-400 text-sm italic">
-                აღწერა არ არის
-              </p>
+              <p v-else class="text-gray-400 text-sm italic">აღწერა არ არის</p>
             </div>
           </div>
         </div>
