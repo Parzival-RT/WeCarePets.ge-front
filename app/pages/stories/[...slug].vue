@@ -31,9 +31,7 @@ const seoTitle = h?.surname
   ? `${h.name} ${h.surname}`
   : (h?.name ?? "WeCarePets.ge");
 const seoImage =
-  h?.logo || h?.image
-    ? `https://we-care-pets-ge-front.vercel.app${getImageUrl(h.logo || h.image)}`
-    : undefined;
+  h?.logo || h?.image ? `${getImageUrl(h.logo || h.image)}` : undefined;
 
 useSeoMeta({
   title: seoTitle,
