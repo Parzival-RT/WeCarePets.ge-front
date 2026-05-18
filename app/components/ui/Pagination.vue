@@ -92,24 +92,23 @@ const lastPage = () => {
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center justify-center gap-2 md:gap-3 mt-10">
-    <!-- Page Numbers with Dots -->
+  <div class="flex flex-wrap items-center justify-center gap-[6px] mt-10">
     <template v-for="(item, index) in paginationItems" :key="index">
       <!-- Dots -->
       <span
         v-if="item === '...'"
-        class="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center text-lg md:text-xl text-blue">
+        class="min-w-9 h-9 flex items-center justify-center text-[13px] font-gilroy text-blue px-[10px]">
         ...
       </span>
       <!-- Page Number -->
       <button
         v-else
         @click="goToPage(item)"
-        class="w-10 h-10 md:w-12 md:h-12 rounded-full text-lg md:text-xl font-sans font-bold transition-colors"
+        class="min-w-9 h-9 rounded-[50px] text-[13px] font-gilroy flex items-center justify-center px-[10px] cursor-pointer transition-all duration-200"
         :class="
           item === currentPage
-            ? 'bg-primary text-white'
-            : 'bg-transparent text-blue hover:bg-primary/10'
+            ? 'bg-blue border-[1.5px] border-blue text-white'
+            : 'bg-white border-[1.5px] border-[rgba(28,43,69,0.1)] text-blue hover:border-warm hover:text-warm'
         ">
         {{ item }}
       </button>
@@ -119,16 +118,16 @@ const lastPage = () => {
     <button
       v-if="currentPage < totalPages"
       @click="nextPage"
-      class="text-blue hover:text-primary text-lg md:text-xl font-sans font-normal underline ml-2 transition-colors">
-      შემდეგი გვერდი
+      class="min-w-9 h-9 rounded-[50px] bg-white border-[1.5px] border-[rgba(28,43,69,0.1)] text-blue text-[13px] font-gilroy px-[14px] flex items-center justify-center transition-all duration-200 cursor-pointer hover:border-warm hover:text-warm">
+      შემდეგი →
     </button>
 
     <!-- Last Page -->
     <button
       v-if="currentPage < totalPages"
       @click="lastPage"
-      class="text-blue hover:text-primary text-lg md:text-xl font-sans font-normal underline ml-2 transition-colors">
-      ბოლო გვერდი
+      class="min-w-9 h-9 rounded-[50px] bg-white border-[1.5px] border-[rgba(28,43,69,0.1)] text-blue text-[13px] font-gilroy px-[14px] flex items-center justify-center transition-all duration-200 cursor-pointer hover:border-warm hover:text-warm">
+      ბოლო »
     </button>
   </div>
 </template>
