@@ -255,13 +255,13 @@ const closeModal = () => {
               v-if="currentCompany.description"
               class="text-sm text-gray-500 leading-relaxed mb-7"
               v-html="currentCompany.description"></p> -->
-            <p class="text-sm text-gray-500 leading-relaxed mb-7">
+            <!-- <p class="text-sm text-gray-500 leading-relaxed mb-7">
               მოხარულები ვართ, რომ {{ currentCompany.name }} ჩვენი ფონდის
               ერთ-ერთი მთავარი დასაყრდენია. მათი ყოველთვიური ფინანსური
               მხარდაჭერა გვაძლევს საშუალებას, ვიყოთ უფრო მობილიზებულები ჩვენს
               მისიაში.
-            </p>
-            <div class="flex items-baseline gap-3">
+            </p> -->
+            <div class="flex items-center gap-3">
               <span class="font-gilroy text-primary text-[60px] leading-none">
                 {{ storiesCount }}
               </span>
@@ -277,7 +277,7 @@ const closeModal = () => {
             <div
               class="flex items-center gap-3 px-4 py-3.5 bg-white border border-gray-200 rounded-xl mb-6">
               <div
-                class="w-[42px] h-[42px] bg-blue rounded-[10px] overflow-hidden flex items-center justify-center shrink-0">
+                class="w-[42px] h-[42px] bg-white border border-[rgba(28,43,69,0.12)] rounded-[10px] overflow-hidden flex items-center justify-center shrink-0">
                 <img
                   v-if="currentCompany.logo"
                   :src="getImageUrl(currentCompany.logo)"
