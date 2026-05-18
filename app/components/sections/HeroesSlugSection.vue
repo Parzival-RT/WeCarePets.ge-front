@@ -139,7 +139,7 @@ const closeModal = () => {
           <div
             class="flex flex-col items-center justify-center gap-4 px-8 py-10 bg-gradient-to-b from-[#e8e0d0] to-[#d8cdb8]">
             <div
-              class="w-[90px] h-[90px] rounded-full border-[3px] border-blue/15 bg-white overflow-hidden flex items-center justify-center shrink-0">
+              class="w-[90px] h-[90px] rounded border-[3px] border-blue/15 bg-white overflow-hidden flex items-center justify-center shrink-0">
               <img
                 v-if="currentPerson.image"
                 :src="getImageUrl(currentPerson.image)"
@@ -158,9 +158,14 @@ const closeModal = () => {
                   d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </div>
-            <p class="font-gilroy text-blue text-[15px] text-center">
-              {{ currentPerson.name }}
-            </p>
+            <div>
+              <p class="font-gilroy text-blue text-[15px] text-center">
+                {{ currentPerson.name }}
+              </p>
+              <p class="font-gilroy text-blue text-[15px] text-center">
+                {{ currentPerson.surname }}
+              </p>
+            </div>
             <span class="font-gilroy text-primary text-[54px] leading-none">
               {{ storiesCount }}
             </span>
