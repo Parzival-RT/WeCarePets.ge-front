@@ -1,9 +1,17 @@
-import { apiGet, apiPut, apiDelete, apiPatch, type ApiResponse } from '~/utils/api';
+import {
+  apiGet,
+  apiPut,
+  apiDelete,
+  apiPatch,
+  type ApiResponse,
+} from "~/utils/api";
 
 interface Company {
   id: number;
   name: string;
+  surname: string;
   logo: string | null;
+  image: string | null;
   description: string | null;
   detail_page_enabled: boolean;
   stories?: any[];
@@ -17,25 +25,28 @@ interface CompaniesParams {
 }
 
 export const useCompanies = () => {
-  const founders = useState<Company[]>('founders', () => []);
-  const heroCompanies = useState<Company[]>('hero-companies', () => []);
-  const currentCompany = useState<Company | null>('current-company', () => null);
-  const pagination = useState('companies-pagination', () => ({
+  const founders = useState<Company[]>("founders", () => []);
+  const heroCompanies = useState<Company[]>("hero-companies", () => []);
+  const currentCompany = useState<Company | null>(
+    "current-company",
+    () => null,
+  );
+  const pagination = useState("companies-pagination", () => ({
     currentPage: 1,
     lastPage: 1,
     total: 0,
     perPage: 12,
   }));
-  const isLoading = useState('companies-loading', () => false);
+  const isLoading = useState("companies-loading", () => false);
 
   // Public: Founders Club (max 30)
   const fetchFounders = async (): Promise<void> => {
     isLoading.value = true;
     try {
-      const response = await apiGet<{ data: Company[] }>('/companies/founders');
+      const response = await apiGet<{ data: Company[] }>("/companies/founders");
       founders.value = response.data;
     } catch (error) {
-      console.error('Error fetching founders:', error);
+      console.error("Error fetching founders:", error);
       founders.value = [];
     } finally {
       isLoading.value = false;
@@ -46,7 +57,10 @@ export const useCompanies = () => {
   const fetchHeroCompanies = async (page: number = 1): Promise<void> => {
     isLoading.value = true;
     try {
-      const response = await apiGet<ApiResponse<Company[]>>('/companies/heroes', { page });
+      const response = await apiGet<ApiResponse<Company[]>>(
+        "/companies/heroes",
+        { page },
+      );
       heroCompanies.value = response.data;
 
       if (response.meta) {
@@ -58,7 +72,7 @@ export const useCompanies = () => {
         };
       }
     } catch (error) {
-      console.error('Error fetching hero companies:', error);
+      console.error("Error fetching hero companies:", error);
       heroCompanies.value = [];
     } finally {
       isLoading.value = false;
@@ -72,14 +86,16 @@ export const useCompanies = () => {
       currentCompany.value = response.data;
       return response.data;
     } catch (error) {
-      console.error('Error fetching company:', error);
+      console.error("Error fetching company:", error);
       return null;
     }
   };
 
   // Admin methods
-  const fetchAdminCompanies = async (params: CompaniesParams = {}): Promise<ApiResponse<Company[]>> => {
-    const response = await apiGet<ApiResponse<Company[]>>('/admin/companies', {
+  const fetchAdminCompanies = async (
+    params: CompaniesParams = {},
+  ): Promise<ApiResponse<Company[]>> => {
+    const response = await apiGet<ApiResponse<Company[]>>("/admin/companies", {
       page: params.page,
       status: params.status,
       group: params.group,
@@ -87,12 +103,18 @@ export const useCompanies = () => {
     return response;
   };
 
-  const updateCompany = async (id: number, data: FormData): Promise<Company | null> => {
+  const updateCompany = async (
+    id: number,
+    data: FormData,
+  ): Promise<Company | null> => {
     try {
-      const response = await apiPut<{ data: Company }>(`/admin/companies/${id}`, data);
+      const response = await apiPut<{ data: Company }>(
+        `/admin/companies/${id}`,
+        data,
+      );
       return response.data;
     } catch (error) {
-      console.error('Error updating company:', error);
+      console.error("Error updating company:", error);
       throw error;
     }
   };
@@ -102,37 +124,48 @@ export const useCompanies = () => {
       await apiDelete(`/admin/companies/${id}`);
       return true;
     } catch (error) {
-      console.error('Error deleting company:', error);
+      console.error("Error deleting company:", error);
       return false;
     }
   };
 
-  const changeCompanyStatus = async (id: number, status: string): Promise<boolean> => {
+  const changeCompanyStatus = async (
+    id: number,
+    status: string,
+  ): Promise<boolean> => {
     try {
       await apiPatch(`/admin/companies/${id}/status`, { status });
       return true;
     } catch (error) {
-      console.error('Error changing company status:', error);
+      console.error("Error changing company status:", error);
       return false;
     }
   };
 
-  const changeCompanyGroup = async (id: number, group: string): Promise<boolean> => {
+  const changeCompanyGroup = async (
+    id: number,
+    group: string,
+  ): Promise<boolean> => {
     try {
       await apiPatch(`/admin/companies/${id}/group`, { group });
       return true;
     } catch (error) {
-      console.error('Error changing company group:', error);
+      console.error("Error changing company group:", error);
       return false;
     }
   };
 
-  const toggleDetailPage = async (id: number, enabled: boolean): Promise<boolean> => {
+  const toggleDetailPage = async (
+    id: number,
+    enabled: boolean,
+  ): Promise<boolean> => {
     try {
-      await apiPatch(`/admin/companies/${id}/detail-page`, { detail_page_enabled: enabled });
+      await apiPatch(`/admin/companies/${id}/detail-page`, {
+        detail_page_enabled: enabled,
+      });
       return true;
     } catch (error) {
-      console.error('Error toggling detail page:', error);
+      console.error("Error toggling detail page:", error);
       return false;
     }
   };

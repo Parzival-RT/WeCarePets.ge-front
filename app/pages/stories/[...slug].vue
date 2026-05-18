@@ -21,51 +21,23 @@ const { data: heroData } = await useAsyncData(
 
 // ── SEO ───────────────────────────────────────────────────────────────────────
 
+const h = heroData.value as any;
+const seoTitle = h?.surname
+  ? `${h.name} ${h.surname}`
+  : (h?.name ?? "WeCarePets.ge");
+const seoImage =
+  h?.logo || h?.image ? getImageUrl(h.logo || h.image) : undefined;
+
 useSeoMeta({
-  title: () => {
-    if (!heroData.value) return "გმირი - WeCarePets.ge";
-    if (type === "company")
-      return (heroData.value as any).name || "გმირი / WeCarePets.ge";
-    const p = heroData.value as any;
-    return p.name && p.surname
-      ? `${p.name} ${p.surname}`
-      : p.name || "გმირი / WeCarePets.ge";
-  },
-  ogTitle: () => {
-    if (!heroData.value) return "გმირი - WeCarePets.ge";
-    if (type === "company")
-      return (heroData.value as any).name || "გმირი / WeCarePets.ge";
-    const p = heroData.value as any;
-    return p.name && p.surname
-      ? `${p.name} ${p.surname}`
-      : p.name || "გმირი / WeCarePets.ge";
-  },
-  twitterTitle: () => {
-    if (!heroData.value) return "გმირი - WeCarePets.ge";
-    if (type === "company")
-      return (heroData.value as any).name || "გმირი / WeCarePets.ge";
-    const p = heroData.value as any;
-    return p.name && p.surname
-      ? `${p.name} ${p.surname}`
-      : p.name || "გმირი / WeCarePets.ge";
-  },
-  description: "WeCarePets.ge — ერთად ცხოველებისთვის",
-  ogDescription: "WeCarePets.ge — ერთად ცხოველებისთვის",
-  twitterDescription: "WeCarePets.ge — ერთად ცხოველებისთვის",
-  ogImage: () => {
-    if (!heroData.value) return undefined;
-    const img = (heroData.value as any).logo || (heroData.value as any).image;
-    return img
-      ? getImageUrl(img)
-      : "https://we-care-pets-ge-front.vercel.app/_vercel/image?url=%2Fimages%2Fhero_bg.jpg&w=1536&q=100";
-  },
-  twitterImage: () => {
-    if (!heroData.value) return undefined;
-    const img = (heroData.value as any).logo || (heroData.value as any).image;
-    return img
-      ? getImageUrl(img)
-      : "https://we-care-pets-ge-front.vercel.app/_vercel/image?url=%2Fimages%2Fhero_bg.jpg&w=1536&q=100";
-  },
+  title: seoTitle,
+  ogTitle: seoTitle,
+  twitterTitle: seoTitle,
+  description: "ჩვენ ერთად ვზრუნავთ ცხოველებზე - დაეხმარე უპატრონო ცხოველებს",
+  ogDescription: "ჩვენ ერთად ვზრუნავთ ცხოველებზე - დაეხმარე უპატრონო ცხოველებს",
+  twitterDescription:
+    "ჩვენ ერთად ვზრუნავთ ცხოველებზე - დაეხმარე უპატრონო ცხოველებს",
+  ogImage: seoImage,
+  twitterImage: seoImage,
   twitterCard: "summary_large_image",
 });
 

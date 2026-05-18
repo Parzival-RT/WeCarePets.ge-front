@@ -59,7 +59,7 @@ export default defineNuxtConfig({
         {
           key: "twitter:description",
           name: "twitter:description",
-          content: "#2 დასაქმების სააგენტო საქართველოში",
+          content: "ერთად ცხოველებისთვის | WeCarePets.ge",
         },
         {
           key: "twitter:image",
