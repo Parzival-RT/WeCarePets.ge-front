@@ -88,12 +88,15 @@ onMounted(() => {
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
         <h2
+          v-if="!pagination"
           class="font-gilroy text-blue"
           style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
           ცხოველების ისტორიები
         </h2>
 
-        <p class="text-gray-500 max-w-2xl mx-auto leading-[1.8]">
+        <p
+          class="text-gray-500 max-w-2xl mx-auto leading-[1.8]"
+          :class="`${pagination ? 'text-lg' : ''}`">
           ყველა მათგანს თავისი სევდიანი წარსული და ბედნიერი აწმყო აქვს. გაიცანი
           ისინი, ვისი ხმაც ჩვენ გავხდით
         </p>
