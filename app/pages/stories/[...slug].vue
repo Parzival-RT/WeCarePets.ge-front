@@ -13,11 +13,16 @@ const { fetchPerson } = usePeople();
 const { data: heroData } = await useAsyncData(
   `hero-${type}-${id}`,
   async () => {
-    if (type === "company" && id) return await fetchCompany(Number(id));
-    if (type === "person" && id) return await fetchPerson(Number(id));
+    try {
+      if (type === "company" && id) return await fetchCompany(Number(id));
+      if (type === "person" && id) return await fetchPerson(Number(id));
+    } catch (e) {
+      console.error("[SSR hero fetch failed]", e);
+    }
     return null;
   },
 );
+console.log("[SSR heroData]", heroData.value);
 
 // ── SEO ───────────────────────────────────────────────────────────────────────
 
@@ -26,7 +31,9 @@ const seoTitle = h?.surname
   ? `${h.name} ${h.surname}`
   : (h?.name ?? "WeCarePets.ge");
 const seoImage =
-  h?.logo || h?.image ? getImageUrl(h.logo || h.image) : undefined;
+  h?.logo || h?.image
+    ? `https://we-care-pets-ge-front.vercel.app${getImageUrl(h.logo || h.image)}`
+    : undefined;
 
 useSeoMeta({
   title: seoTitle,
