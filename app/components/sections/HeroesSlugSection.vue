@@ -139,7 +139,7 @@ const closeModal = () => {
           <div
             class="flex flex-col items-center justify-center gap-4 px-8 py-10 bg-gradient-to-b from-[#e8e0d0] to-[#d8cdb8]">
             <div
-              class="w-[90px] h-[90px] rounded-md border-[3px] border-blue/15 bg-white overflow-hidden flex items-center justify-center shrink-0">
+              class="w-[90px] h-[90px] rounded-xl border-[3px] border-blue/15 bg-white overflow-hidden flex items-center justify-center shrink-0">
               <img
                 v-if="currentPerson.image"
                 :src="getImageUrl(currentPerson.image)"
