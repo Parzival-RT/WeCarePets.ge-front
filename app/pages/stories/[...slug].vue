@@ -23,22 +23,31 @@ const { data: heroData } = await useAsyncData(
 
 useSeoMeta({
   title: () => {
-    if (!heroData.value) return "გმირი";
-    if (type === "company") return (heroData.value as any).name || "გმირი";
+    if (!heroData.value) return "გმირი - WeCarePets.ge";
+    if (type === "company")
+      return (heroData.value as any).name || "გმირი / WeCarePets.ge";
     const p = heroData.value as any;
-    return p.name && p.surname ? `${p.name} ${p.surname}` : p.name || "გმირი";
+    return p.name && p.surname
+      ? `${p.name} ${p.surname}`
+      : p.name || "გმირი / WeCarePets.ge";
   },
   ogTitle: () => {
-    if (!heroData.value) return "გმირი";
-    if (type === "company") return (heroData.value as any).name || "გმირი";
+    if (!heroData.value) return "გმირი - WeCarePets.ge";
+    if (type === "company")
+      return (heroData.value as any).name || "გმირი / WeCarePets.ge";
     const p = heroData.value as any;
-    return p.name && p.surname ? `${p.name} ${p.surname}` : p.name || "გმირი";
+    return p.name && p.surname
+      ? `${p.name} ${p.surname}`
+      : p.name || "გმირი / WeCarePets.ge";
   },
   twitterTitle: () => {
-    if (!heroData.value) return "გმირი";
-    if (type === "company") return (heroData.value as any).name || "გმირი";
+    if (!heroData.value) return "გმირი - WeCarePets.ge";
+    if (type === "company")
+      return (heroData.value as any).name || "გმირი / WeCarePets.ge";
     const p = heroData.value as any;
-    return p.name && p.surname ? `${p.name} ${p.surname}` : p.name || "გმირი";
+    return p.name && p.surname
+      ? `${p.name} ${p.surname}`
+      : p.name || "გმირი / WeCarePets.ge";
   },
   description: "WeCarePets.ge — ერთად ცხოველებისთვის",
   ogDescription: "WeCarePets.ge — ერთად ცხოველებისთვის",
@@ -46,12 +55,16 @@ useSeoMeta({
   ogImage: () => {
     if (!heroData.value) return undefined;
     const img = (heroData.value as any).logo || (heroData.value as any).image;
-    return img ? getImageUrl(img) : undefined;
+    return img
+      ? getImageUrl(img)
+      : "https://we-care-pets-ge-front.vercel.app/_vercel/image?url=%2Fimages%2Fhero_bg.jpg&w=1536&q=100";
   },
   twitterImage: () => {
     if (!heroData.value) return undefined;
     const img = (heroData.value as any).logo || (heroData.value as any).image;
-    return img ? getImageUrl(img) : undefined;
+    return img
+      ? getImageUrl(img)
+      : "https://we-care-pets-ge-front.vercel.app/_vercel/image?url=%2Fimages%2Fhero_bg.jpg&w=1536&q=100";
   },
   twitterCard: "summary_large_image",
 });
