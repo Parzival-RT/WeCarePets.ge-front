@@ -5,12 +5,12 @@ const { getImageUrl } = useImageUrl();
 const slug = route.params.slug as string[];
 const [type, id] = slug as [string | undefined, string | undefined];
 
-const { currentCompany, fetchCompany } = useCompanies();
-const { currentPerson, fetchPerson } = usePeople();
+const { fetchCompany } = useCompanies();
+const { fetchPerson } = usePeople();
 
 // ── SSR data fetch ────────────────────────────────────────────────────────────
 
-await useAsyncData(
+const { data: heroData } = await useAsyncData(
   `hero-${type}-${id}`,
   async () => {
     if (type === "company" && id) return await fetchCompany(Number(id));
@@ -21,26 +21,38 @@ await useAsyncData(
 
 // ── SEO ───────────────────────────────────────────────────────────────────────
 
-const seoName =
-  currentCompany.value?.name ||
-  (currentPerson.value
-    ? `${currentPerson.value.name} ${currentPerson.value.surname}`
-    : "გმირი");
-
-const seoImage =
-  (currentCompany.value?.logo && getImageUrl(currentCompany.value.logo)) ||
-  (currentPerson.value?.image && getImageUrl(currentPerson.value.image)) ||
-  undefined;
-
 useSeoMeta({
-  title: seoName,
-  ogTitle: seoName,
-  twitterTitle: seoName,
+  title: () => {
+    if (!heroData.value) return "გმირი";
+    if (type === "company") return (heroData.value as any).name || "გმირი";
+    const p = heroData.value as any;
+    return p.name && p.surname ? `${p.name} ${p.surname}` : p.name || "გმირი";
+  },
+  ogTitle: () => {
+    if (!heroData.value) return "გმირი";
+    if (type === "company") return (heroData.value as any).name || "გმირი";
+    const p = heroData.value as any;
+    return p.name && p.surname ? `${p.name} ${p.surname}` : p.name || "გმირი";
+  },
+  twitterTitle: () => {
+    if (!heroData.value) return "გმირი";
+    if (type === "company") return (heroData.value as any).name || "გმირი";
+    const p = heroData.value as any;
+    return p.name && p.surname ? `${p.name} ${p.surname}` : p.name || "გმირი";
+  },
   description: "WeCarePets.ge — ერთად ცხოველებისთვის",
   ogDescription: "WeCarePets.ge — ერთად ცხოველებისთვის",
   twitterDescription: "WeCarePets.ge — ერთად ცხოველებისთვის",
-  ogImage: seoImage,
-  twitterImage: seoImage,
+  ogImage: () => {
+    if (!heroData.value) return undefined;
+    const img = (heroData.value as any).logo || (heroData.value as any).image;
+    return img ? getImageUrl(img) : undefined;
+  },
+  twitterImage: () => {
+    if (!heroData.value) return undefined;
+    const img = (heroData.value as any).logo || (heroData.value as any).image;
+    return img ? getImageUrl(img) : undefined;
+  },
   twitterCard: "summary_large_image",
 });
 
