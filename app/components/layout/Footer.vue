@@ -7,13 +7,13 @@ const footerLinks = {
     { label: "როგორ მუშაობს", href: "#how-it-works" },
     { label: "ჩვენი შედეგები", href: "#results" },
     { label: "ცხოველების ისტორიები", href: "#stories" },
-    { label: "Founders Club – პირველი 30", href: "#founders" },
   ],
   support: [
     { label: "დაეხმარე ცხოველებს", href: "#packages" },
-    { label: "გახდი მოხალისე", href: "#volunteer" },
+    // { label: "გახდი მოხალისე", href: "#volunteer" },
     { label: "ჩვენი გმირები (კომპანიები)", href: "#heroes-companies" },
     { label: "ჩვენი გმირები (ადამიანები)", href: "#heroes-people" },
+    { label: "Founders Club – პირველი 30", href: "#founders" },
   ],
 };
 
@@ -24,12 +24,16 @@ const socialLinks = [
   { name: "LinkedIn", icon: "linkedin", href: "https://linkedin.com" },
 ];
 
+const route = useRoute();
+const router = useRouter();
+
 const scrollToSection = (href: string) => {
-  if (href.startsWith("#")) {
+  if (!href.startsWith("#")) return;
+  if (route.path === "/") {
     const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  } else {
+    router.push("/" + href);
   }
 };
 </script>
@@ -37,10 +41,11 @@ const scrollToSection = (href: string) => {
 <template>
   <footer class="bg-blue text-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr] gap-10 lg:gap-8">
-
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1fr_1.2fr] gap-10 lg:gap-8">
         <!-- Col 1: Brand -->
-        <div class="flex flex-col items-center text-center lg:items-start lg:text-left gap-6 sm:col-span-2 lg:col-span-1">
+        <div
+          class="flex flex-col items-center text-center lg:items-start lg:text-left gap-6 sm:col-span-2 lg:col-span-1">
           <NuxtImg
             src="/images/footer_logo.svg"
             alt=""
@@ -53,7 +58,8 @@ const scrollToSection = (href: string) => {
 
         <!-- Col 2: Nav links -->
         <div>
-          <p class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
+          <p
+            class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
             ნავიგაცია
           </p>
           <ul class="space-y-2.5">
@@ -69,7 +75,8 @@ const scrollToSection = (href: string) => {
 
         <!-- Col 3: Support links -->
         <div>
-          <p class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
+          <p
+            class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
             მხარდაჭერა
           </p>
           <ul class="space-y-2.5">
@@ -86,7 +93,8 @@ const scrollToSection = (href: string) => {
         <!-- Col 4: Contact + socials -->
         <div class="flex flex-col gap-6">
           <div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
+            <p
+              class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
               კონტაქტი
             </p>
             <div class="space-y-2">
@@ -104,7 +112,8 @@ const scrollToSection = (href: string) => {
           </div>
 
           <div>
-            <p class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
+            <p
+              class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-4">
               გამოგვყევი
             </p>
             <div class="flex gap-2.5">
@@ -152,7 +161,6 @@ const scrollToSection = (href: string) => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
 

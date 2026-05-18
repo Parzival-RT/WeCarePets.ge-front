@@ -28,11 +28,15 @@ const headerLogo = computed(() => {
 
 const isHeroPage = computed(() => type === "company" || type === "person");
 
+const router = useRouter();
+
 const scrollToSection = (href: string) => {
   isMenuOpen.value = false;
-  const element = document.querySelector(href);
-  if (element) {
-    element.scrollIntoView({ behavior: "smooth" });
+  if (route.path === "/") {
+    const element = document.querySelector(href);
+    if (element) element.scrollIntoView({ behavior: "smooth" });
+  } else {
+    router.push("/" + href);
   }
 };
 

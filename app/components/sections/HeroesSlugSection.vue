@@ -19,7 +19,6 @@ const {
   isLoading: storiesLoading,
 } = useStories();
 
-const isLoading = ref(true);
 const currentPage = ref(1);
 
 const withSuffix = (name: string) => {
@@ -34,6 +33,47 @@ const withPossessive = (name: string) => {
   return vowels.includes(lastChar) ? `${name}ს` : `${name}ის`;
 };
 
+// ── SSR data fetch ────────────────────────────────────────────────────────────
+
+const { pending: isLoading } = await useAsyncData(
+  `hero-${type}-${id}`,
+  async () => {
+    if (type === "company" && id) {
+      return await fetchCompany(Number(id));
+    } else if (type === "person" && id) {
+      return await fetchPerson(Number(id));
+    }
+    return null;
+  },
+);
+
+// ── SEO ───────────────────────────────────────────────────────────────────────
+
+const seoName =
+  currentCompany.value?.name ||
+  (currentPerson.value
+    ? `${currentPerson.value.name} ${currentPerson.value.surname}`
+    : "გმირი");
+
+const seoImage =
+  (currentCompany.value?.logo && getImageUrl(currentCompany.value.logo)) ||
+  (currentPerson.value?.image && getImageUrl(currentPerson.value.image)) ||
+  undefined;
+
+useSeoMeta({
+  title: seoName,
+  ogTitle: seoName,
+  twitterTitle: seoName,
+  description: "WeCarePets.ge — ერთად ცხოველებისთვის",
+  ogDescription: "WeCarePets.ge — ერთად ცხოველებისთვის",
+  twitterDescription: "WeCarePets.ge — ერთად ცხოველებისთვის",
+  ogImage: seoImage,
+  twitterImage: seoImage,
+  twitterCard: "summary_large_image",
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 const loadStories = async () => {
   if (!type || !id) return;
 
@@ -44,16 +84,6 @@ const loadStories = async () => {
     authCheck: false,
   });
 };
-
-onMounted(async () => {
-  isLoading.value = true;
-  if (type === "company" && id) {
-    await fetchCompany(Number(id));
-  } else if (type === "person" && id) {
-    await fetchPerson(Number(id));
-  }
-  isLoading.value = false;
-});
 
 onMounted(() => {
   loadStories();
