@@ -182,7 +182,7 @@ const handleDelete = async (id: number) => {
                   "
                   :alt="person.name"
                   ||
-                  class="h-12 w-12 rounded-full object-cover" />
+                  class="h-12 w-12 rounded-lg object-cover" />
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm font-medium text-gray-900">
