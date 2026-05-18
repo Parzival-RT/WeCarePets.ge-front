@@ -87,22 +87,20 @@ onMounted(() => {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
-        <div class="section-label" style="justify-content: center">
-          ცხოველების ისტორიები
-        </div>
         <h2
-          v-if="!pagination"
-          class="font-gilroy text-blue mb-4"
+          class="font-gilroy text-blue"
           style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
           ცხოველების ისტორიები
         </h2>
-        <!-- <p
-          v-if="!heroType"
+
+        <p class="text-gray-500 max-w-2xl mx-auto leading-[1.8]">
+          ყველა მათგანს თავისი სევდიანი წარსული და ბედნიერი აწმყო აქვს. გაიცანი
+          ისინი, ვისი ხმაც ჩვენ გავხდით
+        </p>
+
+        <p
+          v-if="pagination"
           class="text-gray-500 max-w-md mx-auto leading-[1.8]">
-          თითოეულ ისტორიაში არის ერთობა<br />
-          თითოეულ თვალში — მადლობა.
-        </p> -->
-        <p v-else class="text-gray-500 max-w-md mx-auto leading-[1.8]">
           {{ headerDesc }}
         </p>
       </div>

@@ -27,15 +27,16 @@ watch(currentPage, (newPage) => {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
-        <div class="section-label" style="justify-content: center">
-          ჩვენი გმირები
-        </div>
         <h2
-          v-if="!pagination"
           class="font-gilroy text-blue"
           style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
-          კომპანიები, რომლებიც ზრუნავენ ცხოველებზე
+          ჩვენი გმირები
         </h2>
+        <div
+          class="text-sm font-caps font-semibold text-primary mb-1 font-case"
+          style="justify-content: center">
+          კომპანიები, რომლებიც ზრუნავენ ცხოველებზე
+        </div>
       </div>
 
       <!-- Loading -->

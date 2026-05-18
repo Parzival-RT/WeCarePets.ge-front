@@ -27,11 +27,11 @@ const remainingSpots = computed(() => {
       <div class="grid lg:grid-cols-2 gap-12 items-center">
         <!-- Left: Text -->
         <div class="fade-up">
-          <div
+          <!-- <div
             class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-primary mb-4">
             <span class="w-8 h-0.5 bg-primary rounded-sm inline-block"></span>
             ექსკლუზიური
-          </div>
+          </div> -->
           <h2
             class="font-gilroy text-white mb-4"
             style="font-size: clamp(1.5rem, 3vw, 2.2rem); line-height: 1.25">

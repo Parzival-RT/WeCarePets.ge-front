@@ -84,15 +84,17 @@ const packages = [
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
-        <div class="section-label" style="justify-content: center">
-          პაკეტები
-        </div>
         <h2
-          class="font-gilroy text-blue mb-4"
+          class="font-gilroy text-blue"
           style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
-          შენი დონაცია ცვლის მათ ცხოვრებას
+          პაკეტები
         </h2>
-        <p class="text-gray-500 max-w-xl mx-auto leading-[1.8]">
+        <div
+          class="text-sm font-caps font-semibold text-primary mb-1 font-case"
+          style="justify-content: center">
+          შენი დონაცია ცვლის მათ ცხოვრებას
+        </div>
+        <p class="text-gray-500 max-w-2xl mx-auto leading-[1.8]">
           პირველ 30 კომპანიას გადაეცემათ „დამფუძნებლის სტატუსი", ეს არის პატივი
           მათთვის, ვინც პირველებმა თქვეს — ჩვენ ვზრუნავთ ცხოველებზე.
         </p>

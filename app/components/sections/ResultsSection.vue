@@ -81,19 +81,21 @@ onMounted(() => {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
-        <div class="section-label" style="justify-content: center">
-          ჩვენი შედეგები
-        </div>
         <h2
           class="font-gilroy text-blue"
           style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
           ჩვენი შედეგები
+        </h2>
+
+        <p class="text-gray-500 max-w-2xl mx-auto leading-[1.8]">
+          ჩვენი მიღწევები შენი თანადგომის შედეგია. თითოეული ციფრის მიღმა დგას
+          ერთობლივი შრომა, ზრუნვა და იმედი, რომელიც უსახლკარო ცხოველებს ვაჩუქეთ
           <span
             v-if="results?.coming_soon"
-            class="inline-block bg-primary/10 text-warm-dark text-sm font-sans font-bold px-3.5 py-1 rounded-full ml-3 align-middle">
+            class="inline-block bg-primary/10 text-warm-dark text-sm font-sans font-bold px-3.5 py-1 rounded-full mt-2 align-middle">
             Coming Soon...
           </span>
-        </h2>
+        </p>
       </div>
 
       <!-- Loading -->
