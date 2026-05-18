@@ -75,9 +75,6 @@ const handleSubmit = async () => {
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">
-        <div class="section-label" style="justify-content: center">
-          კონტაქტი
-        </div>
         <h2
           class="font-gilroy text-blue mb-4"
           style="font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.25">
