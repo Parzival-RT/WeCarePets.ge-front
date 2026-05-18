@@ -12,9 +12,9 @@ const heroBackground = computed(() => {
     case "pets":
       return "/images/2.jpg";
     case "heroes_companies":
-      return "/images/3.jpg";
+      return "/images/company.jpg";
     case "heroes_people":
-      return "/images/3.jpg";
+      return "/images/people.jpg";
     default:
       return "/images/hero_bg.jpg";
   }
@@ -129,7 +129,7 @@ const scrollToPackages = () => {
       <NuxtImg
         :src="heroBackground"
         alt=""
-        class="w-full h-full object-cover object-top" />
+        class="w-full h-full object-cover object-center" />
       <div
         class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent"></div>
     </div>
