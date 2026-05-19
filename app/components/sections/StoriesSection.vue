@@ -83,7 +83,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section id="stories" class="py-14 bg-section-alt">
+  <section id="stories" class="py-14 bg-section-alt scroll-mt-[72px]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">

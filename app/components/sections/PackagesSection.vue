@@ -80,7 +80,7 @@ const packages = [
 </script>
 
 <template>
-  <section id="packages" class="py-14 bg-cream">
+  <section id="packages" class="py-14 bg-cream scroll-mt-[72px]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Section header -->
       <div class="text-center mb-12 fade-up">

@@ -22,7 +22,7 @@ const { data: heroData } = await useAsyncData(
     return null;
   },
 );
-console.log("[SSR heroData]", heroData.value);
+// console.log("[SSR heroData]", heroData.value);
 
 // ── SEO ───────────────────────────────────────────────────────────────────────
 

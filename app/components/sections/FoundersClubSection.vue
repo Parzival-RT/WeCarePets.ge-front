@@ -13,7 +13,7 @@ const remainingSpots = computed(() => {
 </script>
 
 <template>
-  <section id="founders" class="py-14 bg-blue relative overflow-hidden">
+  <section id="founders" class="py-14 bg-blue relative overflow-hidden scroll-mt-[72px]">
     <!-- Subtle pattern overlay -->
     <div
       class="absolute inset-0 opacity-5 pointer-events-none"
@@ -76,7 +76,7 @@ const remainingSpots = computed(() => {
                 ? `/stories/company/${founder.id}`
                 : '#'
             "
-            class="bg-white/10 rounded-xl p-3 flex items-center justify-center h-16 hover:bg-white/20 transition-colors">
+            class="bg-white/80 rounded-xl p-3 flex items-center justify-center h-16 hover:bg-white/90 transition-colors">
             <img
               :src="
                 founder.logo
