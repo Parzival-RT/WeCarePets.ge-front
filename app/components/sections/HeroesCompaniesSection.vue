@@ -59,7 +59,7 @@ watch(currentPage, (newPage) => {
             company.detail_page_enabled ? `/stories/company/${company.id}` : '#'
           "
           :class="[
-            'bg-section-alt rounded-2xl p-6 flex items-center justify-center min-h-[80px] border border-gray-200 transition-all duration-200',
+            'relative group bg-section-alt rounded-2xl p-6 flex items-center justify-center min-h-[80px] border border-gray-200 transition-all duration-200',
             company.detail_page_enabled
               ? 'hover:border-primary hover:shadow-md cursor-pointer'
               : 'cursor-default',
@@ -72,6 +72,9 @@ watch(currentPage, (newPage) => {
             "
             :alt="company.name"
             class="max-h-10 max-w-full object-contain" />
+          <span class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 rounded-lg bg-blue text-white text-xs font-gilroy whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+            {{ company.name }}
+          </span>
         </NuxtLink>
       </div>
 

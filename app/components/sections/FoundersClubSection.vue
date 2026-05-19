@@ -76,7 +76,7 @@ const remainingSpots = computed(() => {
                 ? `/stories/company/${founder.id}`
                 : '#'
             "
-            class="bg-white/80 rounded-xl p-3 flex items-center justify-center h-16 hover:bg-white/90 transition-colors">
+            class="relative group bg-white/80 rounded-xl p-3 flex items-center justify-center h-16 hover:bg-white/90 transition-colors">
             <img
               :src="
                 founder.logo
@@ -85,6 +85,9 @@ const remainingSpots = computed(() => {
               "
               :alt="founder.name"
               class="max-h-8 max-w-full object-contain opacity-80" />
+            <span class="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 rounded-lg bg-blue text-white text-xs font-gilroy whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+              {{ founder.name }}
+            </span>
           </NuxtLink>
         </div>
       </div>
